@@ -32,6 +32,7 @@
   app.use((req, res, next) => {
     const userData = req.cookies.userData;
     res.locals.googleMapsApiKey= process.env.GOOGLE_MAPS_API_KEY;
+    res.locals.firebaseApiKey= process.env.API_KEY;
     
     if (userData) {
       res.locals.user = JSON.parse(userData); 

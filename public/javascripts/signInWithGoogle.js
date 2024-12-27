@@ -1,9 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyDD1ENUdvtm2IJfvkahRYp63lbpmyy1Qq0",
+    apiKey: firebaseApiKey,
     authDomain: "swimming-pool-uthm.firebaseapp.com",
     projectId: "swimming-pool-uthm",
     storageBucket: "swimming-pool-uthm.firebasestorage.app",

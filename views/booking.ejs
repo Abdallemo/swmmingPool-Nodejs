@@ -11,20 +11,19 @@
             href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"
             rel="stylesheet" />
         <link rel="stylesheet" href="/stylesheets/output.css">
+
     </head>
     <body class="flex flex-col max-h-screen">
         <%- include('components/header',{user:user}) -%>
 
-        <!--  
-            <div id="calendar" class="h-[600px] w-full mb-10 " ></div> 
-        </div> -->
+
         
         <div class="calendar-container">
             <div class="container mx-auto max-w-6xl mt-7 mb-10">
             <div id="mainCalendar" class="w-full h-[600px]]"></div></div>
 
-            <div id="timeCalendar" style="display: none;" class="container mx-auto max-w-6xl mt-7 mb-10">
-              <h3>Time Slots for <span id="dateClicked"></span></h3>
+            <div id="timeCalendar" style="display: none;" class="container mx-auto max-w-6xl mt-7 mb-10 border-2 border-black">
+              <h3 class="font-bold">Time Slots for <span id="dateClicked"></span></h3>
               <form class="max-w-sm mx-auto">
                 <label for="timeSlots" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a Time Slot</label>
                 <select id="timeSlots" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -34,7 +33,15 @@
             </div>
 
           </div>
-        
+          <div id="peopleForm" style="display: none;" class="container mx-auto max-w-6xl mt-2 mb-10 border-2 border-black">
+            <h3>Enter Number of People for <span id="dateClickedPeople"></span></h3>
+            <form class="max-w-sm mx-auto">
+                <label for="numPeople" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number of People</label>
+                <input type="number" id="numPeople" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="1" max="20" value="1" required >
+                <button id="bookButton"  class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-10 text-lg" onclick=" bookingProcess()">Book Slot</button>
+              </form>
+
+            </div>
     
 
 

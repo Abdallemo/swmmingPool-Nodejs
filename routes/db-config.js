@@ -88,8 +88,8 @@ async function initializeDatabase() {
 initializeDatabase();
 
 
-async function getSwimmingPool() {
-  const [rows] = await pool.query("SELECT * FROM booking");
+async function getSwimmingPool(email) {
+  const [rows] = await pool.query(`SELECT * FROM booking WHERE user_id = ?`,[email]);
   return rows;
 }
 async function CreateBookslot(bookingDate, slotTime, numPeople,email) {

@@ -4,15 +4,33 @@ var mainCalendar = new FullCalendar.Calendar(
     initialView: "dayGridMonth",
     aspectRatio: 3,
     headerToolbar: {
-      start: "dayGridMonth,timeGridWeek,timeGridDay",
-      center: "title",
+      start: "dayGridMonth,timeGridWeek",
+      center: "title,mycustomButton",
     },
     businessHours: {
       startTime: "12:00",
       endTime: "21:00",
-      daysOfWeek: [0, 1, 2, 3, 4], 
+      daysOfWeek: [0, 1, 2, 3, 4],
+    },
+    customButtons: {
+      mycustomButton: {
+        text: "Your reservations",
+        click: function () {
+          mainCalendar.changeView("listMonth");
+        },
+      },
     },
 
+
+    events: async function (info, successCallback, failureCallback) {
+      try {
+        const response = await fetch("/events");
+        const events = await response.json();
+        successCallback(events);
+      } catch (error) {
+        failureCallback(error);
+      }
+    },
     dateClick: function (info) {
       document.getElementById("timeCalendar").style.display = "block";
       document.getElementById("dateClicked").textContent = info.dateStr;
@@ -71,22 +89,16 @@ function populateTimeSlots(date) {
   });
 }
 
-window.bookingProcess=async function bookingProcess() {
-  
+window.bookingProcess = async function bookingProcess() {
   var date = document.getElementById("dateClickedPeople").textContent;
   var time = document.getElementById("timeClicked").textContent;
   var numPeople = document.getElementById("numPeople").value;
-  alert('Secessfully captured '+date+time+numPeople);
+  alert("Secessfully captured " + date + time + numPeople);
 
-  
-  
-
-  
-
-  const response = await fetch('/booking', {
-    method: 'POST',
+  const response = await fetch("/booking", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       date: date,
@@ -94,11 +106,10 @@ window.bookingProcess=async function bookingProcess() {
       numPeople: numPeople,
     }),
   });
-  if(response.ok){
-    alert('sended secessfully');
+  if (response.ok) {
+    alert("sended secessfully");
   }
-  
-}
+};
 
 function generateTimeSlots(date) {
   var slots = [];

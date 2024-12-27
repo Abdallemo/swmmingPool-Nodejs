@@ -10,6 +10,8 @@ const usersRouter = require("./routes/users");
 const bookingRouter = require("./routes/booking");
 const profileRouter = require("./routes/profile");
 const signOuteRouter = require("./routes/signout");
+const eventRouter= require('./routes/event')
+const cardRouter= require('./routes/card')
 const serviceaccount = require("./routes/configs/swimming-pool-uthm-firebase-adminsdk-su8h0-ff42a10331.json");
 const admin = require("firebase-admin");
 const { console } = require("inspector");
@@ -53,6 +55,8 @@ app.use("/login", usersRouter);
 app.use("/profile", profileRouter);
 app.use("/booking", bookingRouter);
 app.use("/signout", signOuteRouter);
+app.use("/events", eventRouter);
+app.use("/card", cardRouter);
 
 // error handler
 app.use(function (err, req, res, next) {

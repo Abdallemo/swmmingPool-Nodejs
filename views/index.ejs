@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Uthm Swimming Pool</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"
+            rel="stylesheet" />
+        <link rel="stylesheet" href="/stylesheets/output.css">
+
+    </head>
+    <body class="flex flex-col max-h-screen">
+        <%- include('components/header',{user:user}) -%>
+
+        <%- include('components/content',{user:user}) -%>
+
+        <%- include('components/footer',{user:user,googleMapsApiKey:googleMapsApiKey}) -%>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
+    </body>
+</html>

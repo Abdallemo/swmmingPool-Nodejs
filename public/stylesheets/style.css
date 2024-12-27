@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.fc-daygrid-day:hover {
+    background-color: #abddb2;
+    /* Light blue background on hover */
+    cursor: pointer;
+}
+
+.calendar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#timeCalendar {
+    margin-top: 20px;
+}

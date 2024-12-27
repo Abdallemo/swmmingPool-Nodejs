@@ -1,0 +1,37 @@
+{
+  "name": "swimmingpool",
+  "version": "0.0.0",
+  "private": true,
+  "main": "app.js",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "@fullcalendar/core": "^6.1.15",
+    "@fullcalendar/daygrid": "^6.1.15",
+    "body-parser": "^1.20.3",
+    "chart.js": "^4.4.7",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.4.7",
+    "ejs": "3.1.10",
+    "express": "~4.16.1",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.18.0",
+    "firebase": "^11.1.0",
+    "firebase-admin": "^13.0.2",
+    "flowbite": "^2.5.2",
+    "fullcalendar": "^6.1.15",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "jdom": "^3.2.5",
+    "morgan": "~1.9.1",
+    "node": "^22.2.0",
+    "nodemon": "^3.1.9",
+    "tailwindcss": "^3.4.17"
+  }
+}

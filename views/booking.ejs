@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Booking</title>
+        <script
+            src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+        <script src="/javascripts/calenderController.js" defer></script>
+        <link
+            href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"
+            rel="stylesheet" />
+        <link rel="stylesheet" href="/stylesheets/output.css">
+    </head>
+    <body class="flex flex-col max-h-screen">
+        <%- include('components/header',{user:user}) -%>
+
+        <!--  
+            <div id="calendar" class="h-[600px] w-full mb-10 " ></div> 
+        </div> -->
+        
+        <div class="calendar-container">
+            <div class="container mx-auto max-w-6xl mt-7 mb-10">
+            <div id="mainCalendar" class="w-full h-[600px]]"></div></div>
+
+            <div id="timeCalendar" style="display: none;" class="container mx-auto max-w-6xl mt-7 mb-10">
+              <h3>Time Slots for <span id="dateClicked"></span></h3>
+              <form class="max-w-sm mx-auto">
+                <label for="timeSlots" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a Time Slot</label>
+                <select id="timeSlots" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  <!-- Time options will be dynamically inserted here -->
+                </select>
+              </form>
+            </div>
+
+          </div>
+        
+    
+
+
+
+        <%- include('components/footer',{user:user}) -%>
+
+        <script
+        src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    </body>
+    <style>
+    
+</style>
+
+</html>

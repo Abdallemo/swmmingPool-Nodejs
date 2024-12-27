@@ -1,5 +1,7 @@
 const firebase = require("firebase/compat/app");
 require("firebase/auth");
+const {getSwimmingPool ,CreateBookslot,saveUsersFromFirebase} = require('./db-config');
+
 
 const express = require("express");
 const { getAuth } = require("firebase/auth");
@@ -21,6 +23,8 @@ router.post("/", async (req, res) => {
 
     const decodeToken = await admin.auth().verifyIdToken(idToken);
     console.log("Decoded Token:", decodeToken);
+
+    saveUsersFromFirebase(decodeToken.email,decodeToken.name);
     res.cookie(
       "userData",
       JSON.stringify({

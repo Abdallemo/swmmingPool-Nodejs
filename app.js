@@ -1,64 +1,68 @@
-  const createError = require("http-errors");
-  const express = require("express");
-  const path = require("path");
-  const bodyParser = require("body-parser");
-  const cookieParser = require("cookie-parser");
-  const logger = require("morgan");
-  require("./routes/configs/firebase-config");
-  const indexRouter = require("./routes/index");
-  const usersRouter = require("./routes/users");
-  const bookingRouter = require("./routes/booking");
-  const profileRouter = require("./routes/profile");
-  const signOuteRouter = require("./routes/signout");
-  const serviceaccount = require("./routes/configs/swimming-pool-uthm-firebase-adminsdk-su8h0-ff42a10331.json");
-  const admin = require("firebase-admin");
-  require('dotenv').config();
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceaccount),
-  });
+const express = require("express");
+const path = require("path");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+require("./routes/configs/firebase-config");
+const mysql = require("mysql2");
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
+const bookingRouter = require("./routes/booking");
+const profileRouter = require("./routes/profile");
+const signOuteRouter = require("./routes/signout");
+const serviceaccount = require("./routes/configs/swimming-pool-uthm-firebase-adminsdk-su8h0-ff42a10331.json");
+const admin = require("firebase-admin");
+const { console } = require("inspector");
+require("dotenv").config();
+const cors = require('cors');
 
-  const app = express();
+admin.initializeApp({
+  credential: admin.credential.cert(serviceaccount),
+});
 
-  // view engine setup
-  app.set("view engine", "ejs");
-  app.set("views", path.join(__dirname, "./views"));
+const app = express();
 
-  app.use(logger("dev"));
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: false }));
-  app.use(cookieParser());
-  app.use(express.static(path.join(__dirname, "public")));
+// view engine setup
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "./views"));
 
-  app.use((req, res, next) => {
-    const userData = req.cookies.userData;
-    res.locals.googleMapsApiKey= process.env.GOOGLE_MAPS_API_KEY;
-    res.locals.firebaseApiKey= process.env.API_KEY;
-    
-    if (userData) {
-      res.locals.user = JSON.parse(userData); 
-    } else {
-      res.locals.user = null; 
-    }
+app.use(logger("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
+app.use(cors());
+
+app.use((req, res, next) => {
+  const userData = req.cookies.userData;
+  res.locals.googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
+  res.locals.firebaseApiKey = process.env.API_KEY;
   
-    next();
-  });
 
-  app.use("/", indexRouter);
-  app.use("/login", usersRouter);
-  app.use('/profile',profileRouter);
-  app.use('/booking',bookingRouter);
-  app.use('/signout',signOuteRouter);
+  if (userData) {
+    res.locals.user = JSON.parse(userData);
+  } else {
+    res.locals.user = null;
+  }
 
+  next();
+});
 
-  // error handler
-  app.use(function (err, req, res, next) {
-    console.error(err.stack);
-    // Return JSON error response
-    res.status(err.status || 500).json({
-      message: err.message,
-      error: req.app.get("env") === "development" ? err : {},
-    });
+app.use("/", indexRouter);
+app.use("/login", usersRouter);
+app.use("/profile", profileRouter);
+app.use("/booking", bookingRouter);
+app.use("/signout", signOuteRouter);
+
+// error handler
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  // Return JSON error response
+  res.status(err.status || 500).json({
+    message: err.message,
+    error: req.app.get("env") === "development" ? err : {},
   });
-  app.listen(5000, () => {
-    console.log("Listing to Port 5000");
-  });
+});
+app.listen(5000, () => {
+  console.log("Listing to Port 5000 hey");
+});

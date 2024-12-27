@@ -62,40 +62,42 @@ function populateTimeSlots(date) {
     selectElement.appendChild(option);
   });
 
-  selectElement.addEventListener("change", function (enent) {
-    var selectedTim = enent.target.value;
+  selectElement.addEventListener("change", function (event) {
+    var selectedTim = event.target.value;
     document.getElementById("peopleForm").style.display = "block";
     document.getElementById("dateClickedPeople").textContent = date;
-    document.getElementById("timeClicked").textContent = selectElement;
+    document.getElementById("timeClicked").textContent = selectedTim;
     document.getElementById("bookButton").style.display = "block";
   });
 }
 
-function bookingProcess() {
-  alert("btn clicked before fetch");
+window.bookingProcess=async function bookingProcess() {
+  
   var date = document.getElementById("dateClickedPeople").textContent;
   var time = document.getElementById("timeClicked").textContent;
   var numPeople = document.getElementById("numPeople").value;
-  // Send the booking data to the server
-  fetch("/book", {
-    method: "POST",
+  alert('Secessfully captured '+date+time+numPeople);
+
+  
+  
+
+  
+
+  const response = await fetch('/booking', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       date: date,
       time: time,
       numPeople: numPeople,
     }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        alert("Booking successful!");
-      } else {
-        alert("Booking failed!");
-      }
-    });
+  });
+  if(response.ok){
+    alert('sended secessfully');
+  }
+  
 }
 
 function generateTimeSlots(date) {

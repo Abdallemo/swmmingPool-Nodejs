@@ -1,5 +1,3 @@
-
-
 var mainCalendar = new FullCalendar.Calendar(
   document.getElementById("mainCalendar"),
   {
@@ -7,7 +5,7 @@ var mainCalendar = new FullCalendar.Calendar(
     aspectRatio: 3,
     headerToolbar: {
       start: "dayGridMonth,timeGridWeek",
-      center: "title,mycustomButton",
+      center: "mycustomButton",
     },
     businessHours: {
       startTime: "12:00",
@@ -22,7 +20,6 @@ var mainCalendar = new FullCalendar.Calendar(
         },
       },
     },
-
 
     events: async function (info, successCallback, failureCallback) {
       try {
@@ -88,48 +85,7 @@ function populateTimeSlots(date) {
     document.getElementById("dateClickedPeople").textContent = date;
     document.getElementById("timeClicked").textContent = selectedTim;
     document.getElementById("bookButton").style.display = "block";
-    
   });
-}
-
-// window.bookingProcess = async function bookingProcess(event) {
-//   /** @type {HTMLDivElement} */
-//   if (event) {
-//     event.preventDefault();
-//   }
-
-//   var date = document.getElementById("dateClickedPeople").textContent;
-//   var time = document.getElementById("timeClicked").textContent;
-//   var numPeople = document.getElementById("numPeople").value;
-//   let gender = document.querySelector('#gender').value;
-//   let card_number = document.getElementById('card-number').value;
-//   let expdte = document.getElementById('expiry').value;
-//   let ccv = document.getElementById('cvv').value;
-
-
-//   alert("Secessfully captured " + date + time + numPeople+gender+card_number+expdte+ccv);
-
-//   const response = await fetch("/booking", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//       date: date,
-//       time: time,
-//       numPeople: numPeople,
-//       gender:gender,
-//       card_number:card_number,
-//       expdte:expdte,
-//       ccv:ccv
-//     }),
-//   });
-//   if (response.ok) {
-//     alert("sended secessfully");
-//   }
-// };
-if (window.successMessage) {
-  alert(window.successMessage); // Show the success message
 }
 
 function generateTimeSlots(date) {
@@ -150,3 +106,30 @@ function generateTimeSlots(date) {
   });
   return slots;
 }
+
+function changeDynamic () {
+  let role = document.querySelector("#role").value;
+  let numPeople = document.querySelector("#numPeople").value;
+  let total = 0;
+  
+  switch (role) {
+    case "student":
+      total = numPeople * 2;
+      break;
+    case "staf":
+      total = numPeople * 4;
+      break;
+    case "outside":
+      total = numPeople * 15;
+      break;
+    default:
+      total == 0;
+      console.log("Total back to " + total);
+      break;
+  }
+  document.getElementById("total").textContent = `Total: RM ${total} `;
+}
+
+document.querySelector("#role").addEventListener('change',changeDynamic);
+document.querySelector("#numPeople").addEventListener('change',changeDynamic);
+document.addEventListener("DOMContentLoaded", changeDynamic);

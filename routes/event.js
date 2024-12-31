@@ -13,10 +13,10 @@ router.get("/", async (req, res) => {
   
       
       const formattedEvents = events.map(event => ({
-        title: `Booking: ${event.user_id}`,
-        start: event.booking_date,
-        end: event.booking_date,  
-        description: `Number of people: ${event.num_people}`,
+        title: `Booked: ${event.user_id}`,
+        start:Date.parse(event.booking_date) ,
+        end: Date.parse(event.booking_date),  
+        description: `Number of people: ${event.num_people.toString}`,
         color: "#FF6347",  
       }));
   

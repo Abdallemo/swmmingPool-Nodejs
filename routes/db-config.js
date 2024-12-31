@@ -33,6 +33,7 @@ async function createBookingTableIfNotExists() {
     await connection.query(`
         CREATE TABLE IF NOT EXISTS booking (
             id INT AUTO_INCREMENT PRIMARY KEY,
+            role VARCHAR(30) NOT NULL,
             booking_date VARCHAR(30) NOT NULL,
             slot_time VARCHAR(30) NOT NULL,
             num_people INT NOT NULL,
@@ -117,13 +118,13 @@ async function getSwimmingPool(email) {
   ]);
   return rows;
 }
-async function CreateBookslot(bookingDate, slotTime, numPeople, gender, email) {
+async function CreateBookslot(role,bookingDate, slotTime, numPeople, gender, email) {
   const result = await pool.query(
     `
-            INSERT INTO booking (booking_date, slot_time, num_people,gender,user_id)
-            VALUES (?,?,?,?,?)
+            INSERT INTO booking (role,booking_date, slot_time, num_people,gender,user_id)
+            VALUES (?,?,?,?,?,?)
         `,
-    [bookingDate, slotTime, numPeople, gender, email]
+    [role,bookingDate, slotTime, numPeople, gender, email]
   );
 
   return result;

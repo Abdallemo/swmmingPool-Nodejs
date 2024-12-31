@@ -54,18 +54,27 @@
             </div>
 
           </div>
-          <div id="peopleForm" name="peopleForm" style="display: none;" class="container mx-auto max-w-2xl mb-5 border-2 border-black text-center ">
-            <h3 class="mb-3"><span id="dateClickedPeople" name="dateClickedPeople"></span>  <span id="timeClicked" name="timeClicked"></span></h3>
+          <div id="peopleForm" name="peopleForm" style="display: none;" class="container mx-auto max-w-2xl mb-5  text-center ">
+            <!-- <h3 class="mb-3 text-base hidden"><span id="dateClickedPeople" name="dateClickedPeople"></span>  <span id="timeClicked" name="timeClicked"></span></h3> -->
             <div class="max-w-sm mx-auto">
               <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
                 <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> 
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                 </select>
+
+              <label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User Role</label>
+                <select name="role" id="role" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> 
+                  <option value="student">Student</option>
+                  <option value="staf">Staff</option>
+                  <option value="outside">Outside</option>
+                </select>
                 <label for="numPeople" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number of People</label>
                 <input type="number" id="numPeople" name="numPeople" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="1" max="20" value="1" required >
-                
-                 <div class="mt-10 text-center mx-auto">
+                  <div class="max-h-[48px]] mt-1">
+                    <p id="total" class="text-right font-bold text-lg"></p>
+                  </div>
+                 <div class="mt-10 text-center mx-auto mr-4 ">
                    <%- include('components/creditCard.ejs') -%>
 
                  </div>

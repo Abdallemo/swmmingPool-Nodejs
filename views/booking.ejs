@@ -20,11 +20,11 @@
 
         
         <div class="calendar-container">
-            <div class="container mx-auto max-w-6xl mt-7 mb-10">
+            <div class="container mx-auto max-w-5xl mt-7 mb-7 ">
             <div id="mainCalendar" class="w-full h-[600px]]"></div></div>
 
-            <div id="timeCalendar" style="display: none;" class="container mx-auto max-w-6xl mt-7 mb-10 border-2 border-black">
-              <h3 class="font-bold">Time Slots for <span id="dateClicked"></span></h3>
+            <h3 class="font-bold">Time Slots for <span id="dateClicked"></span></h3>
+            <div id="timeCalendar" style="display: none;" class="container mx-auto max-w-2xl mt-3 mb-10 border-2 border-black">
               <form class="max-w-sm mx-auto">
                 <label for="timeSlots" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a Time Slot</label>
                 <select id="timeSlots" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -34,9 +34,14 @@
             </div>
 
           </div>
-          <div id="peopleForm" style="display: none;" class="container mx-auto max-w-6xl mt-2 mb-10 border-2 border-black">
-            <h3>Enter Number of People for <span id="dateClickedPeople"></span> at <span id="timeClicked"></span></h3>
+          <div id="peopleForm" style="display: none;" class="container mx-auto max-w-6xl mb-10 border-2 border-black">
+            <h3><span id="dateClickedPeople"></span>  <span id="timeClicked"></span></h3>
             <form class="max-w-sm mx-auto">
+              <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> 
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
                 <label for="numPeople" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number of People</label>
                 <input type="number" id="numPeople" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="1" max="20" value="1" required >
                 <!-- <button id="bookButton"  class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-10 text-lg" onclick=" bookingProcess()">Book Slot</button> -->

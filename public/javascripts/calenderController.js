@@ -93,7 +93,9 @@ window.bookingProcess = async function bookingProcess() {
   var date = document.getElementById("dateClickedPeople").textContent;
   var time = document.getElementById("timeClicked").textContent;
   var numPeople = document.getElementById("numPeople").value;
-  alert("Secessfully captured " + date + time + numPeople);
+  let gender = document.querySelector('#gender').value;
+
+  alert("Secessfully captured " + date + time + numPeople+gender);
 
   const response = await fetch("/booking", {
     method: "POST",
@@ -104,6 +106,7 @@ window.bookingProcess = async function bookingProcess() {
       date: date,
       time: time,
       numPeople: numPeople,
+      gender:gender,
     }),
   });
   if (response.ok) {

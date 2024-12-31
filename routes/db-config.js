@@ -35,6 +35,7 @@ async function createBookingTableIfNotExists() {
             booking_date DATE NOT NULL,
             slot_time VARCHAR(30) NOT NULL,
             num_people INT NOT NULL,
+            gender VARCHAR(10) NOT NULL,
             user_id VARCHAR(200)
             
         );
@@ -57,7 +58,7 @@ async function createUserTableIfNotExists() {
       }
       const connection = await pool.getConnection();
       // TODO this is commented becuase its development related query ..  
-    //   await connection.query(`DROP TABLE IF EXISTS booking;`);
+      // await connection.query(`DROP TABLE IF EXISTS users;`);
       try{
       await connection.query(`
             CREATE TABLE IF NOT EXISTS users (
@@ -92,13 +93,13 @@ async function getSwimmingPool(email) {
   const [rows] = await pool.query(`SELECT * FROM booking WHERE user_id = ?`,[email]);
   return rows;
 }
-async function CreateBookslot(bookingDate, slotTime, numPeople,email) {
+async function CreateBookslot(bookingDate, slotTime, numPeople,gender,email) {
   const result = await pool.query(
     `
-            INSERT INTO booking (booking_date, slot_time, num_people,user_id)
-            VALUES (?,?,?,?)
+            INSERT INTO booking (booking_date, slot_time, num_people,gender,user_id)
+            VALUES (?,?,?,?,?)
         `,
-    [bookingDate, slotTime, numPeople,email]
+    [bookingDate, slotTime, numPeople,gender,email]
   );
 
   return result;

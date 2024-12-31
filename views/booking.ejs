@@ -18,38 +18,58 @@
         <%- include('components/header',{user:user}) -%>
 
 
+
         
-        <div class="calendar-container">
-            <div class="container mx-auto max-w-5xl mt-7 mb-7 ">
+        <div class="calendar-container mb-7">
+            <div class="container mx-auto max-w-5xl mt-7 mb-2 ">
+              <% if (bookingSuccessMessage != null) { %>
+          
+                <div id="alert-border-3" class="flex items-center p-4 mb-4 text-green-800 border-t-4 border-green-300 bg-green-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800" role="alert">
+                  <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                  </svg>
+                  <div class="ms-3 text-sm font-medium">
+                    <%= bookingSuccessMessage %>
+                  </div>
+                  <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"  data-dismiss-target="#alert-border-3" aria-label="Close">
+                    <span class="sr-only">Dismiss</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                  </button>
+              </div>
+      
+                
+              <% } %>
+              
             <div id="mainCalendar" class="w-full h-[600px]]"></div></div>
 
-            <h3 class="font-bold">Time Slots for <span id="dateClicked"></span></h3>
-            <div id="timeCalendar" style="display: none;" class="container mx-auto max-w-2xl mt-3 mb-10 border-2 border-black">
-              <form class="max-w-sm mx-auto">
+            <h3 class="font-bold size text-2xl">Time Slots for <span id="dateClicked" name="dateClicked"></span></h3>
+            <div id="timeCalendar" name="timeCalendar" style="display: none;" class="container mx-auto max-w-2xl mt-3 mb-1 ">
+              <form class="max-w-sm mx-auto" action="/booking" method="POST">
                 <label for="timeSlots" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a Time Slot</label>
-                <select id="timeSlots" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  <!-- Time options will be dynamically inserted here -->
+                <select id="timeSlots" name="timeSlots" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </select>
-              </form>
+              
             </div>
 
           </div>
-          <div id="peopleForm" style="display: none;" class="container mx-auto max-w-6xl mb-10 border-2 border-black">
-            <h3><span id="dateClickedPeople"></span>  <span id="timeClicked"></span></h3>
-            <form class="max-w-sm mx-auto">
+          <div id="peopleForm" name="peopleForm" style="display: none;" class="container mx-auto max-w-2xl mb-5 border-2 border-black text-center ">
+            <h3 class="mb-3"><span id="dateClickedPeople" name="dateClickedPeople"></span>  <span id="timeClicked" name="timeClicked"></span></h3>
+            <div class="max-w-sm mx-auto">
               <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
                 <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> 
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                 </select>
                 <label for="numPeople" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number of People</label>
-                <input type="number" id="numPeople" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="1" max="20" value="1" required >
-                <!-- <button id="bookButton"  class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-10 text-lg" onclick=" bookingProcess()">Book Slot</button> -->
+                <input type="number" id="numPeople" name="numPeople" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="1" max="20" value="1" required >
+                
                  <div class="mt-10 text-center mx-auto">
                    <%- include('components/creditCard.ejs') -%>
 
                  </div>
-              
+                </div>
               </form>
             </div>
     

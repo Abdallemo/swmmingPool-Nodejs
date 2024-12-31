@@ -1,3 +1,5 @@
+
+
 var mainCalendar = new FullCalendar.Calendar(
   document.getElementById("mainCalendar"),
   {
@@ -86,33 +88,49 @@ function populateTimeSlots(date) {
     document.getElementById("dateClickedPeople").textContent = date;
     document.getElementById("timeClicked").textContent = selectedTim;
     document.getElementById("bookButton").style.display = "block";
+    
   });
 }
 
-window.bookingProcess = async function bookingProcess() {
-  var date = document.getElementById("dateClickedPeople").textContent;
-  var time = document.getElementById("timeClicked").textContent;
-  var numPeople = document.getElementById("numPeople").value;
-  let gender = document.querySelector('#gender').value;
+// window.bookingProcess = async function bookingProcess(event) {
+//   /** @type {HTMLDivElement} */
+//   if (event) {
+//     event.preventDefault();
+//   }
 
-  alert("Secessfully captured " + date + time + numPeople+gender);
+//   var date = document.getElementById("dateClickedPeople").textContent;
+//   var time = document.getElementById("timeClicked").textContent;
+//   var numPeople = document.getElementById("numPeople").value;
+//   let gender = document.querySelector('#gender').value;
+//   let card_number = document.getElementById('card-number').value;
+//   let expdte = document.getElementById('expiry').value;
+//   let ccv = document.getElementById('cvv').value;
 
-  const response = await fetch("/booking", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      date: date,
-      time: time,
-      numPeople: numPeople,
-      gender:gender,
-    }),
-  });
-  if (response.ok) {
-    alert("sended secessfully");
-  }
-};
+
+//   alert("Secessfully captured " + date + time + numPeople+gender+card_number+expdte+ccv);
+
+//   const response = await fetch("/booking", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       date: date,
+//       time: time,
+//       numPeople: numPeople,
+//       gender:gender,
+//       card_number:card_number,
+//       expdte:expdte,
+//       ccv:ccv
+//     }),
+//   });
+//   if (response.ok) {
+//     alert("sended secessfully");
+//   }
+// };
+if (window.successMessage) {
+  alert(window.successMessage); // Show the success message
+}
 
 function generateTimeSlots(date) {
   var slots = [];

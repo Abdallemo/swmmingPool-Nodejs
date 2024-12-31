@@ -34,12 +34,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
-
+app.use(express.urlencoded({extended:false}))
 app.use((req, res, next) => {
   const userData = req.cookies.userData;
   res.locals.googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
   res.locals.firebaseApiKey = process.env.API_KEY;
+  const bookingSuccessMessage = req.cookies.bookingSuccessMessage;
   
+  res.locals.bookingSuccessMessage = bookingSuccessMessage || null;
 
   if (userData) {
     res.locals.user = JSON.parse(userData);

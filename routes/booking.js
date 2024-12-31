@@ -1,35 +1,55 @@
 const express = require("express");
+var bodyParser = require("body-parser");
 const router = express.Router();
-const {getSwimmingPool ,CreateBookslot} = require('./db-config');
-require('fullcalendar');
+const { inserPaymentTable, CreateBookslot } = require("./db-config");
+const { error } = require("console");
+const { emit } = require("process");
+require("fullcalendar");
 
 /* GET home page. */
-router.get("/",  function (req, res, next) {
-  res.render("booking");
+router.get("/", function (req, res, next) {
+  const bookingSuccessMessage = req.cookies.bookingSuccessMessage
+  res.clearCookie('bookingSuccessMessage')
+  res.render("booking",{bookingSuccessMessage});
+  
 });
 
+router.post("/", async function (req, res, next) {
+  console.log("Hey atleast it forwads here ");
+  let { timeSlots, gender, numPeople, card_number, expiry, cvv } = req.body;
+  let date = timeSlots.split(" on ")[1];
+  let slottime = timeSlots.split(" on ")[0];
+  const userrData = JSON.parse(req.cookies.userData);
+  email = userrData.email;
+  numPeople = Number(numPeople);
+  
 
-router.post("/",async function (req, res, next) {
-  console.log('first retirve:\n'+req.body);
-  try{
-  const {date,time,numPeople,gender}= req.body
+  console.log("email:" + email +" "+ typeof email);
+  console.log("date:" + date +" "+ typeof date);
+  console.log("slot-time:" + slottime +" "+ typeof slottime);
+  console.log("gender:" + gender +" "+ typeof gender);
+  console.log("numPeople: " + numPeople +" "+ typeof numPeople);
+  console.log("card_number: " + card_number +" "+ typeof card_number);
+  console.log("expire date : " + expiry +" "+ typeof expiry);
+  console.log("ccv: " + cvv +" "+ typeof cvv);
 
-  if (!date || !time || !numPeople||!gender) {
-    return res.status(400).json({ error: "Missing required fields" });
+  if (!timeSlots || !gender || !numPeople || !card_number || !expiry || !cvv) {
+    res.status(400).json({ error: "Missing required field" });
   }
-  console.log('res cookies:\n'+req.cookies); 
-    const userData = JSON.parse(req.cookies.userData);
+  try {
 
-    console.log('usernme is'+userData.email);
+    await CreateBookslot(date, slottime, numPeople, gender, email);
+    await inserPaymentTable(email, card_number, 0, date);
+    res.cookie("bookingSuccessMessage",  "Successfully Booked" , { httpOnly: true });
+    res.redirect("/booking");
 
-  await CreateBookslot(date,time,numPeople,gender,userData.email);
+  } catch (error) {
+    console.log(error);
+    req.session.bookingErrorMessage = "Error cannot Book Now Try later";
 
-    return res.status(201).json({ message: "Booking created successfully" });
+    res.redirect("/booking");
 
-  }catch(error){
-    console.error("Error creating booking:", error);
-    return res.status(500).json({ error: "Failed to create booking" });
-  }  
+  }
 
 });
 

@@ -1,3 +1,5 @@
+console.log('Here client side')
+
 var mainCalendar = new FullCalendar.Calendar(
   document.getElementById("mainCalendar"),
   {

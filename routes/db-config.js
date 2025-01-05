@@ -3,6 +3,7 @@ require("dotenv").config();
 let isBookCreated = false;
 let isUserCreated = false;
 let isPaymentCreated = false
+let isFeedbackCreated = false
 
 const pool = mysql.createPool({
   host: process.env.MYSQL_HOST,
@@ -51,6 +52,36 @@ async function createBookingTableIfNotExists() {
   }
 }
 
+async function createFeebackTableIfNotExists() {
+  if (isFeedbackCreated) {
+    console.log("Feeback table already created. Skipping...");
+    return;
+  }
+  const connection = await pool.getConnection();
+  // TODO this is commented becuase its development related query ..
+    // await connection.query(`DROP TABLE IF EXISTS feeback;`);
+  try {
+    await connection.query(`
+        CREATE TABLE IF NOT EXISTS feedback (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(200) NOT NULL,
+            email VARCHAR(200) NOT NULL,
+            feedback VARCHAR(200) NOT NULL
+
+            
+        );
+    `);
+    console.log("Feedback table created successfully.");
+    isFeedbackCreated = true;
+  } catch (e) {
+    console.error("Error creating feeback table:", e);
+  } finally {
+    connection.release();
+  }
+}
+
+
+
 async function createUserTableIfNotExists() {
   if (isUserCreated) {
     console.log("users table already created. Skipping...");
@@ -62,6 +93,7 @@ async function createUserTableIfNotExists() {
   try {
     await connection.query(`
             CREATE TABLE IF NOT EXISTS users (
+                uid VARCHAR(240) NOT NULL ,
                 email VARCHAR(200) NOT NULL PRIMARY KEY ,
                 name VARCHAR(200) NOT NULL
 
@@ -108,6 +140,7 @@ async function initializeDatabase() {
   await createBookingTableIfNotExists();
   await createUserTableIfNotExists();
   await createPayemtnTableIfNotExists();
+  await createFeebackTableIfNotExists();
 }
 
 initializeDatabase();
@@ -139,9 +172,18 @@ async function inserPaymentTable(user_id, card_Number,total, date) {
   );
   return result;
 }
+async function inserfeedbackTable(name, email,feeback) {
+  const result = await pool.query(
+    `
+              INSERT INTO feedback (name,email,feedback )
+              VALUES(?,?,?)
+    `,[name, email,feeback]
+  );
+  return result;
+}
 
 
-async function saveUsersFromFirebase(email, name) {
+async function saveUsersFromFirebase(uid,email, name) {
   const [existuser] = await pool.query("SELECT * FROM users WHERE email = ?", [
     email,
   ]);
@@ -151,11 +193,11 @@ async function saveUsersFromFirebase(email, name) {
   } else {
     const result = await pool.query(
       `
-                INSERT INTO users (email,name)
-                VALUES (?,?)
+                INSERT INTO users (uid,email,name)
+                VALUES (?,?,?)
                 ON DUPLICATE KEY UPDATE name = VALUES(name);
             `,
-      [email, name]
+      [uid,email, name]
     );
     return result;
   }
@@ -165,5 +207,6 @@ module.exports = {
   getSwimmingPool,
   CreateBookslot,
   saveUsersFromFirebase,
-  inserPaymentTable
+  inserPaymentTable,
+  inserfeedbackTable
 };

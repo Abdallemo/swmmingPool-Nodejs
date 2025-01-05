@@ -9,10 +9,13 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const bookingRouter = require("./routes/booking");
 const profileRouter = require("./routes/profile");
+const feedbackRouter = require("./routes/feedback");
+
 const signOuteRouter = require("./routes/signout");
 const eventRouter= require('./routes/event')
 const cardRouter= require('./routes/card')
 const adminRouter= require('./routes/admin')
+
 const adminDashboardRouter= require('./routes/dashboard')
 const serviceaccount = require("./routes/configs/swimming-pool-uthm-firebase-adminsdk-su8h0-ff42a10331.json");
 const admin = require("firebase-admin");
@@ -37,6 +40,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 app.use(express.urlencoded({extended:false}))
+
+
 app.use((req, res, next) => {
   const userData = req.cookies.userData;
   res.locals.googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
@@ -62,6 +67,7 @@ app.use("/signout", signOuteRouter);
 app.use("/events", eventRouter);
 app.use("/card", cardRouter);
 app.use("/admin", adminRouter);
+app.use("/feedback", feedbackRouter);
 app.use("/admin/dashboard", adminDashboardRouter);
 
 // error handler
@@ -73,6 +79,12 @@ app.use(function (err, req, res, next) {
     error: req.app.get("env") === "development" ? err : {},
   });
 });
+
+app.use((req, res, next) => {
+  res.status(404).render("404");  
+});
+
+
 app.listen(5000, () => {
   console.log("Listing to Port 5000 hey");
 });

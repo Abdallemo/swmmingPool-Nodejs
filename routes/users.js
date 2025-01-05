@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
     const decodeToken = await admin.auth().verifyIdToken(idToken);
     console.log("Decoded Token:", decodeToken);
 
-    saveUsersFromFirebase(decodeToken.email,decodeToken.name);
+    saveUsersFromFirebase(decodeToken.uid,decodeToken.email,decodeToken.name);
     res.cookie(
       "userData",
       JSON.stringify({

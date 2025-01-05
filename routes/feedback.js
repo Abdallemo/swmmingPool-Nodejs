@@ -18,7 +18,7 @@ router.post('/',function(req,res){
 
     console.log('name: '+name)
     console.log('email: '+email)
-    console.log('feedback: '+feeback)
+    console.log('feedback: '+feeback) 
 
     if(!feeback){
         res.status(500).json({error:'please fill all fields'})

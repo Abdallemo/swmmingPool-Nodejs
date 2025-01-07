@@ -1,12 +1,11 @@
-const express = require('express')
-
+const express = require("express");
+require("firebase/auth");
 const router = express.Router();
 
-router.get('/',function(req,res){
-    res.render('admin/adminlogin')
-})
+router.get("/", async (req, res) => {
 
 
-
+  res.render("admin/adminlogin");
+});
 
 module.exports = router;

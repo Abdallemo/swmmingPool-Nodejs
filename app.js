@@ -15,7 +15,7 @@ const signOuteRouter = require("./routes/signout");
 const eventRouter= require('./routes/event')
 const cardRouter= require('./routes/card')
 const adminRouter= require('./routes/admin')
-
+const deleteUserRoute = require('./routes/deleteusers');
 const adminDashboardRouter= require('./routes/dashboard')
 const serviceaccount = require("./routes/configs/swimming-pool-uthm-firebase-adminsdk-su8h0-ff42a10331.json");
 const admin = require("firebase-admin");
@@ -35,11 +35,11 @@ app.set("views", path.join(__dirname, "./views"));
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
-app.use(express.urlencoded({extended:false}))
+
 
 
 app.use((req, res, next) => {
@@ -69,6 +69,7 @@ app.use("/card", cardRouter);
 app.use("/admin", adminRouter);
 app.use("/feedback", feedbackRouter);
 app.use("/admin/dashboard", adminDashboardRouter);
+app.use('/admin/dashboard/delete',deleteUserRoute);
 
 // error handler
 app.use(function (err, req, res, next) {
@@ -83,7 +84,7 @@ app.use(function (err, req, res, next) {
 app.use((req, res, next) => {
   res.status(404).render("404");  
 });
-
+console.log("Before starting the server");
 
 app.listen(5000, () => {
   console.log("Listing to Port 5000 hey");

@@ -145,12 +145,8 @@ async function initializeDatabase() {
 
 initializeDatabase();
 
-async function getSwimmingPool(email) {
-  const [rows] = await pool.query(`SELECT * FROM booking WHERE user_id = ?`, [
-    email,
-  ]);
-  return rows;
-}
+
+
 async function CreateBookslot(role,bookingDate, slotTime, numPeople, gender, email) {
   const result = await pool.query(
     `
@@ -203,10 +199,48 @@ async function saveUsersFromFirebase(uid,email, name) {
   }
 }
 
+async function getSwimmingPool(email) {
+  const [rows] = await pool.query(`SELECT * FROM booking WHERE user_id = ?`, [
+    email,
+  ]);
+  return rows;
+}
+async function DisplaySwimmingPool() {
+  const [rows] = await pool.query(`SELECT * FROM booking`, [
+    
+  ]);
+  return rows;
+}
+async function DisplayUsers() {
+  const [rows] = await pool.query(`SELECT * FROM users`, [
+    
+  ]);
+  return rows;
+}
+async function deleteUser(uid) {
+  await pool.query(`DELETE FROM users WHERE uid = ?;
+  `,[uid])
+  
+}
+//this is for devlopment purpose
+async function DropAllTables() {
+  const connection = await pool.getConnection();
+  await connection.query(`DROP TABLE IF EXISTS booking;`);
+  await connection.query(`DROP TABLE IF EXISTS feedback;`);
+  await connection.query(`DROP TABLE IF EXISTS users;`);
+  await connection.query(`DROP TABLE IF EXISTS payment;`);
+  console.log('deleted all tables');
+}
+
+// DropAllTables();
+
 module.exports = {
   getSwimmingPool,
   CreateBookslot,
   saveUsersFromFirebase,
   inserPaymentTable,
-  inserfeedbackTable
+  inserfeedbackTable,
+  DisplaySwimmingPool,
+  DisplayUsers,
+  deleteUser
 };

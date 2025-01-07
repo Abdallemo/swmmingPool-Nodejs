@@ -104,6 +104,7 @@
                                     class="btn btn-sm btn-primary">Edit</button> -->
                                     <form action="/admin/dashboard/delete" method="POST">
                                         <input type="hidden" name="uid" value="<%= user.uid %>">
+                                        <input type="hidden" name="email" value="<%= user.email%>">
                                     <button class="btn btn-sm btn-danger" type="submit" >Delete</button>
                                     </form>
                             </td>
@@ -129,11 +130,14 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>101</td>
-                            <td>John Doe</td>
-                            <td>2024-12-20</td>
-                            <td>12:00 PM - 2:00 PM</td>
-                            <td>
+                            <% booking_data.forEach(booking => { %>
+                                
+                                <td>101</td>
+                                <td>John Doe</td>
+                                <td>2024-12-20</td>
+                                <td>12:00 PM - 2:00 PM</td>
+                                <td>
+                            <% }) %>
                                 <button
                                     class="btn btn-sm btn-primary">Edit</button>
                                 <button

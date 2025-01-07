@@ -218,9 +218,23 @@ async function DisplayUsers() {
   return rows;
 }
 async function deleteUser(uid) {
-  await pool.query(`DELETE FROM users WHERE uid = ?;
-  `,[uid])
+
   
+    await pool.query(`DELETE FROM users WHERE uid = ?;
+      `,[uid])
+
+  
+}
+
+async function deleteUsersBooking(user_id) {
+  await pool.query(`DELETE FROM booking WHERE user_id = ?;
+    `,[user_id])
+
+}
+async function deleteUsersPayment(user_id) {
+  await pool.query(`DELETE FROM payment WHERE user_id = ?;
+    `,[user_id])
+
 }
 //this is for devlopment purpose
 async function DropAllTables() {
@@ -242,5 +256,7 @@ module.exports = {
   inserfeedbackTable,
   DisplaySwimmingPool,
   DisplayUsers,
-  deleteUser
+  deleteUser,
+  deleteUsersBooking,
+  deleteUsersPayment
 };

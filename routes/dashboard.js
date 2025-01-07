@@ -16,7 +16,7 @@ router.get('/',async(req,res)=>{
 
 
 
-    res.render('admin/adminDashboard',{users_data:users_result,})
+    res.render('admin/adminDashboard',{users_data:users_result,booking_data:Booking_result})
 })
 
 

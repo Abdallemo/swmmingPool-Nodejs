@@ -2,8 +2,8 @@ const mysql = require("mysql2/promise");
 require("dotenv").config();
 let isBookCreated = false;
 let isUserCreated = false;
-let isPaymentCreated = false
-let isFeedbackCreated = false
+let isPaymentCreated = false;
+let isFeedbackCreated = false;
 
 const pool = mysql.createPool({
   host: process.env.MYSQL_HOST,
@@ -30,7 +30,7 @@ async function createBookingTableIfNotExists() {
   }
   const connection = await pool.getConnection();
   // TODO this is commented becuase its development related query ..
-    // await connection.query(`DROP TABLE IF EXISTS booking;`);
+  // await connection.query(`DROP TABLE IF EXISTS booking;`);
   try {
     await connection.query(`
         CREATE TABLE IF NOT EXISTS booking (
@@ -60,7 +60,7 @@ async function createFeebackTableIfNotExists() {
   }
   const connection = await pool.getConnection();
   // TODO this is commented becuase its development related query ..
-    // await connection.query(`DROP TABLE IF EXISTS feeback;`);
+  // await connection.query(`DROP TABLE IF EXISTS feeback;`);
   try {
     await connection.query(`
         CREATE TABLE IF NOT EXISTS feedback (
@@ -80,8 +80,6 @@ async function createFeebackTableIfNotExists() {
     connection.release();
   }
 }
-
-
 
 async function createUserTableIfNotExists() {
   if (isUserCreated) {
@@ -146,41 +144,47 @@ async function initializeDatabase() {
 
 initializeDatabase();
 
-
-
-async function CreateBookslot(role,bookingDate, slotTime, numPeople, gender, email) {
+async function CreateBookslot(
+  role,
+  bookingDate,
+  slotTime,
+  numPeople,
+  gender,
+  email
+) {
   const result = await pool.query(
     `
             INSERT INTO booking (role,booking_date, slot_time, num_people,gender,user_id)
             VALUES (?,?,?,?,?,?)
         `,
-    [role,bookingDate, slotTime, numPeople, gender, email]
+    [role, bookingDate, slotTime, numPeople, gender, email]
   );
 
   return result;
 }
 
-async function inserPaymentTable(user_id, card_Number,total, date) {
+async function inserPaymentTable(user_id, card_Number, total, date) {
   const result = await pool.query(
     `
               INSERT INTO payment (user_id, card_number ,total, date )
               VALUES(?,?,?,?)
-    `,[user_id,card_Number ,total,date]
+    `,
+    [user_id, card_Number, total, date]
   );
   return result;
 }
-async function inserfeedbackTable(name, email,feeback) {
+async function inserfeedbackTable(name, email, feeback) {
   const result = await pool.query(
     `
               INSERT INTO feedback (name,email,feedback )
               VALUES(?,?,?)
-    `,[name, email,feeback]
+    `,
+    [name, email, feeback]
   );
   return result;
 }
 
-
-async function saveUsersFromFirebase(uid,email, name) {
+async function saveUsersFromFirebase(uid, email, name) {
   const [existuser] = await pool.query("SELECT * FROM users WHERE email = ?", [
     email,
   ]);
@@ -194,7 +198,7 @@ async function saveUsersFromFirebase(uid,email, name) {
                 VALUES (?,?,?)
                 ON DUPLICATE KEY UPDATE name = VALUES(name);
             `,
-      [uid,email, name]
+      [uid, email, name]
     );
     return result;
   }
@@ -207,42 +211,50 @@ async function getSwimmingPool(email) {
   return rows;
 }
 async function DisplaySwimmingPool() {
-  const [rows] = await pool.query(`SELECT * FROM booking`, [
-    
-  ]);
+  const [rows] = await pool.query(`SELECT * FROM booking`, []);
   return rows;
 }
 async function DisplayUsers() {
-  const [rows] = await pool.query(`SELECT * FROM users`, [
-    
-  ]);
+  const [rows] = await pool.query(`SELECT * FROM users`, []);
   return rows;
 }
 async function DisplayPayment() {
-  const [rows] = await pool.query(`SELECT * FROM payment`, [
-    
-  ]);
+  const [rows] = await pool.query(`SELECT * FROM payment`, []);
   return rows;
 }
 async function deleteUser(uid) {
-
-  
-    await pool.query(`DELETE FROM users WHERE uid = ?;
-      `,[uid])
-
-  
+  await pool.query(
+    `DELETE FROM users WHERE uid = ?;
+      `,
+    [uid]
+  );
 }
 
 async function deleteUsersBooking(user_id) {
-  await pool.query(`DELETE FROM booking WHERE user_id = ?;
-    `,[user_id])
-
+  await pool.query(
+    `DELETE FROM booking WHERE user_id = ?;
+    `,
+    [user_id]
+  );
 }
 async function deleteUsersPayment(user_id) {
-  await pool.query(`DELETE FROM payment WHERE user_id = ?;
-    `,[user_id])
-
+  await pool.query(
+    `DELETE FROM payment WHERE user_id = ?;
+    `,
+    [user_id]
+  );
 }
+async function countNumberOfColumn(db, table) {
+  const [result] = await pool.query(
+    `
+    SELECT COUNT(*) AS row_count
+    FROM ${db}.${table};
+    `
+  );
+
+  return result[0].row_count;
+}
+
 //this is for devlopment purpose
 async function DropAllTables() {
   const connection = await pool.getConnection();
@@ -250,7 +262,7 @@ async function DropAllTables() {
   await connection.query(`DROP TABLE IF EXISTS feedback;`);
   await connection.query(`DROP TABLE IF EXISTS users;`);
   await connection.query(`DROP TABLE IF EXISTS payment;`);
-  console.log('deleted all tables');
+  console.log("deleted all tables");
 }
 
 // DropAllTables();
@@ -266,5 +278,6 @@ module.exports = {
   DisplayPayment,
   deleteUser,
   deleteUsersBooking,
-  deleteUsersPayment
+  deleteUsersPayment,
+  countNumberOfColumn,
 };

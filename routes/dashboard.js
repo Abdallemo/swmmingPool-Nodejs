@@ -6,6 +6,7 @@ const router = express.Router();
 router.get('/',async(req,res)=>{
     const Booking_result = await DisplaySwimmingPool();
     const users_result = await DisplayUsers();
+    
 
     users_result.map((user)=>{
         console.log('name: '+user.name);

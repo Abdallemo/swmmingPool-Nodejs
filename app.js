@@ -10,7 +10,7 @@ const usersRouter = require("./routes/users");
 const bookingRouter = require("./routes/booking");
 const profileRouter = require("./routes/profile");
 const feedbackRouter = require("./routes/feedback");
-
+const reportRouter =require('./routes/report');
 const signOuteRouter = require("./routes/signout");
 const eventRouter= require('./routes/event')
 const cardRouter= require('./routes/card')
@@ -70,6 +70,7 @@ app.use("/admin", adminRouter);
 app.use("/feedback", feedbackRouter);
 app.use("/admin/dashboard", adminDashboardRouter);
 app.use('/admin/dashboard/delete',deleteUserRoute);
+app.use('/admin/dashboard/report',reportRouter);
 
 // error handler
 app.use(function (err, req, res, next) {

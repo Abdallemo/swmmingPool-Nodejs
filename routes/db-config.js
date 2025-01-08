@@ -11,6 +11,7 @@ const pool = mysql.createPool({
   password: process.env.MYSQL_PASSWORD,
   database: "swimmingpool",
 });
+
 async function createDatabaseIfNotExist() {
   const connection = await mysql.createConnection({
     host: process.env.MYSQL_HOST,
@@ -217,6 +218,12 @@ async function DisplayUsers() {
   ]);
   return rows;
 }
+async function DisplayPayment() {
+  const [rows] = await pool.query(`SELECT * FROM payment`, [
+    
+  ]);
+  return rows;
+}
 async function deleteUser(uid) {
 
   
@@ -256,6 +263,7 @@ module.exports = {
   inserfeedbackTable,
   DisplaySwimmingPool,
   DisplayUsers,
+  DisplayPayment,
   deleteUser,
   deleteUsersBooking,
   deleteUsersPayment

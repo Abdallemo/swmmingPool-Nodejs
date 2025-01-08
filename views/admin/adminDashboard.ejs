@@ -122,28 +122,35 @@
                     <thead>
                         <tr>
                             <th>Booking ID</th>
-                            <th>User</th>
-                            <th>Date</th>
+                            <th>user id</th>
+                            <th>role</th>
+                            <th>Booking Date</th>
                             <th>Time Slot</th>
-                            <th>Actions</th>
+                            <th>Number of People</th>
+                            <th>Gender</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <% booking_data.forEach(booking => { %>
                                 
-                                <td>101</td>
-                                <td>John Doe</td>
-                                <td>2024-12-20</td>
-                                <td>12:00 PM - 2:00 PM</td>
+                                <td><%= booking.id %></td>
+                                <td><%= booking.user_id %></td>
+                                <td><%= booking.role %></td>
+                                <td><%= booking.booking_date %></td>
+                                <td><%= booking.slot_time %></td>
+                                <td><%= booking.num_people %></td>
+                                <td><%= booking.gender %></td>
+
                                 <td>
-                            <% }) %>
-                                <button
-                                    class="btn btn-sm btn-primary">Edit</button>
+                           
+                                
                                 <button
                                     class="btn btn-sm btn-danger">Cancel</button>
                             </td>
                         </tr>
+                         <% }) %>
                     </tbody>
                 </table>
             </section>
@@ -151,7 +158,9 @@
             <section id="reports">
                 <h2>Reports</h2>
                 <p>Generate and download system reports:</p>
-                <button class="btn btn-info">Download Report</button>
+                <form action="/admin/dashboard/report" method="POST">
+                    <button class="btn btn-info" type="submit">Download Report</button>
+                </form>
             </section>
 
             <section id="settings">

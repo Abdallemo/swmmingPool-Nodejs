@@ -10,6 +10,13 @@ require("fullcalendar");
 router.get("/", function (req, res, next) {
   const bookingSuccessMessage = req.cookies.bookingSuccessMessage
   res.clearCookie('bookingSuccessMessage')
+  const userData = req.cookies.userData;
+  /* so to not forget
+  '!'  this will check if the data is falsy values like : undefinded , null , 0 , false NaN and "" 
+  */
+  if(!userData){
+    res.redirect('/')
+  }
   res.render("booking",{bookingSuccessMessage});
   
 });

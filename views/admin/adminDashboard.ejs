@@ -146,6 +146,43 @@
                     </tbody>
                 </table>
             </section>
+            <section id="manage-bookings">
+                <h2>Users Payment</h2>
+                <p>Track pool bookings Payments:</p>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>user id</th>
+                            <th>Card Number</th>
+                            <th>Total</th>
+                            <th>Date</th>
+                            <!-- <th>Action</th> -->
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <% all_Payments.forEach(payment => { %>
+                                
+                                <td><%= payment.id %></td>
+                                <td><%= payment.user_id %></td>
+                                <td><%= payment.card_number %></td>
+                                <td>RM<%= payment.total %></td>
+                                <td><%= payment.date %></td>
+
+
+                                <!-- <td>
+                           
+                                
+                                <button
+                                    class="btn btn-sm btn-danger">Cancel</button>
+                            </td> -->
+                        </tr>
+                         <% }) %>
+                    </tbody>
+                </table>
+            </section>
 
             <section id="reports">
                 <h2>Reports</h2>

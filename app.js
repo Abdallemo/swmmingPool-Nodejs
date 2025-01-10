@@ -47,8 +47,10 @@ app.use((req, res, next) => {
   res.locals.googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
   res.locals.firebaseApiKey = process.env.API_KEY;
   const bookingSuccessMessage = req.cookies.bookingSuccessMessage;
-  
+  const errormsgcrd = req.cookies.errormsgcrd;
   res.locals.bookingSuccessMessage = bookingSuccessMessage || null;
+
+  res.locals.errormsgcrd = errormsgcrd||null;
 
   if (userData) {
     res.locals.user = JSON.parse(userData);

@@ -222,6 +222,10 @@ async function DisplayPayment() {
   const [rows] = await pool.query(`SELECT * FROM payment`, []);
   return rows;
 }
+async function DisplayAdmins() {
+  const [rows] = await pool.query(`SELECT * FROM admin`, []);
+  return rows;
+}
 async function deleteUser(uid) {
   await pool.query(
     `DELETE FROM users WHERE uid = ?;
@@ -280,4 +284,5 @@ module.exports = {
   deleteUsersBooking,
   deleteUsersPayment,
   countNumberOfColumn,
+  DisplayAdmins
 };

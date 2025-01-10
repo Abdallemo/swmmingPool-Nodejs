@@ -3,6 +3,7 @@ const {
   DisplaySwimmingPool,
   DisplayUsers,
   countNumberOfColumn,
+  DisplayPayment
 } = require("./db-config");
 
 const router = express.Router();
@@ -10,6 +11,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   const Booking_result = await DisplaySwimmingPool();
   const users_result = await DisplayUsers();
+  const user_payment = await DisplayPayment();
   const totalUsers = await countNumberOfColumn("swimmingpool", "users");
   const totalBooking = await countNumberOfColumn("swimmingpool", "booking");
   console.log(totalUsers);
@@ -21,6 +23,7 @@ router.get("/", async (req, res) => {
     booking_data: Booking_result,
     total_users: totalUsers,
     total_booking: totalBooking,
+    all_Payments:user_payment
   });
 });
 

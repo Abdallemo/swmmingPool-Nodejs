@@ -1,95 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Booking</title>
-        <script
-            src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-        <script src="/javascripts/calenderController.js" type="module" defer></script>
-        <link
-            href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"
-            rel="stylesheet" />
-        <link rel="stylesheet" href="/stylesheets/output.css">
-        <link rel="stylesheet" href="/stylesheets/style.css">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking</title>
+    <script
+      src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+    <script src="/javascripts/calenderController.js" type="module"
+      defer></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="/stylesheets/output.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
 
-    </head>
-    <body class="flex flex-col max-h-screen">
-        <%- include('components/header',{user:user}) -%>
+  </head>
+  <body class="flex flex-col max-h-screen">
+    <%- include('components/header',{user:user}) -%>
 
+    <div class="calendar-container mb-7">
+      <div class="container mx-auto max-w-5xl mt-7 mb-2 ">
+        <% if (bookingSuccessMessage != null) { %>
 
+        <div id="alert-border-3"
+          class="flex items-center p-4 mb-4 text-green-800 border-t-4 border-green-300 bg-green-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800"
+          role="alert">
+          <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+            viewBox="0 0 20 20">
+            <path
+              d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+          </svg>
+          <div class="ms-3 text-sm font-medium">
+            <%= bookingSuccessMessage %>
+          </div>
+          <button type="button"
+            class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"
+            data-dismiss-target="#alert-border-3" aria-label="Close">
+            <span class="sr-only">Dismiss</span>
+            <svg class="w-3 h-3" aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 14 14">
+              <path stroke="currentColor" stroke-linecap="round"
+                stroke-linejoin="round" stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+          </button>
+        </div>
 
-        
-        <div class="calendar-container mb-7">
-            <div class="container mx-auto max-w-5xl mt-7 mb-2 ">
-              <% if (bookingSuccessMessage != null) { %>
-          
-                <div id="alert-border-3" class="flex items-center p-4 mb-4 text-green-800 border-t-4 border-green-300 bg-green-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800" role="alert">
-                  <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-                  </svg>
-                  <div class="ms-3 text-sm font-medium">
-                    <%= bookingSuccessMessage %>
-                  </div>
-                  <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"  data-dismiss-target="#alert-border-3" aria-label="Close">
-                    <span class="sr-only">Dismiss</span>
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                  </button>
-              </div>
-      
-                
-              <% } %>
-              
-            <div id="mainCalendar" class="w-full h-[600px]]"></div></div>
+        <% } %>
 
-            <h3 class="font-bold size text-2xl">Time Slots for <span id="dateClicked" name="dateClicked"></span></h3>
-            <div id="timeCalendar" name="timeCalendar" style="display: none;" class="container mx-auto max-w-2xl mt-3 mb-1 ">
-              <form class="max-w-sm mx-auto" action="/booking" method="POST">
-                <label for="timeSlots" class="block mb-2 text-sm font-medium text-gray-900 ">Select a Time Slot</label>
-                <select id="timeSlots" name="timeSlots" class="bg-transparent border-b-2 border-gray-300 text-gray-900 text-sm rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:bg-transparent dark:text-black dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:ring-opacity-50 p-4 w-full  ">
-                </select>
-              
-            </div>
+        <div id="mainCalendar" class="w-full h-[600px]]"></div></div>
+
+      <h3 class="font-bold size text-2xl">Time Slots for <span id="dateClicked"
+          name="dateClicked"></span></h3>
+      <div id="timeCalendar" name="timeCalendar" style="display: none;"
+        class="container mx-auto max-w-2xl mt-3 mb-1 ">
+        <form class="max-w-sm mx-auto" action="/booking" method="POST">
+          <label for="timeSlots"
+            class="block mb-2 text-sm font-medium text-gray-900 ">Select a Time
+            Slot</label>
+          <select id="timeSlots" name="timeSlots"
+            class="bg-transparent border-b-2 border-gray-300 text-gray-900 text-sm rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:bg-transparent dark:text-black dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:ring-opacity-50 p-4 w-full  ">
+          </select>
+
+        </div>
+
+      </div>
+      <div id="peopleForm" name="peopleForm" style="display: none;"
+        class="container mx-auto max-w-2xl mb-5  text-center ">
+        <!-- <h3 class="mb-3 text-base hidden"><span id="dateClickedPeople" name="dateClickedPeople"></span>  <span id="timeClicked" name="timeClicked"></span></h3> -->
+        <div class="max-w-sm mx-auto">
+          <label for="gender"
+            class="block mb-2 text-sm text-gray-900 font-bold">Gender</label>
+          <div class="flex flex-col space-y-2 border-collapse">
+            <label class="flex items-center text-sm">
+              <input type="radio" name="gender" value="male" class="mr-2"> Male
+            </label>
+            <label class="flex items-center text-sm">
+              <input type="radio" name="gender" value="female" class="mr-2">
+              Female
+            </label>
+          </div>
+
+          <label for="role"
+            class="block mb-2 text-sm font-bold text-gray-900 ">User
+            Role</label>
+          <select name="role" id="role"
+            class="bg-transparent border-b-2 border-gray-300 text-gray-900 text-sm rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:bg-transparent dark:text-black dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:ring-opacity-50 p-4 w-full">
+            <option value="student">Student</option>
+            <option value="staf">Staff</option>
+            <option value="outside">Outside</option>
+          </select>
+          <label for="numPeople"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number
+            of People</label>
+          <input type="number" id="numPeople" name="numPeople"
+            class="bg-transparent border-b-2 border-gray-300 text-gray-900 text-sm rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:bg-transparent dark:text-black dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:ring-opacity-50 p-4 w-full"
+            min="1" max="20" value="1" required oninput="validateNumber(this)">
+          <div class="max-h-[48px]] mt-1">
+            <p id="total" class="text-right font-bold text-lg"></p>
+          </div>
+          <div class="mt-10 text-center mx-auto mr-4 ">
+            <%- include('components/creditCard.ejs') -%>
 
           </div>
-          <div id="peopleForm" name="peopleForm" style="display: none;" class="container mx-auto max-w-2xl mb-5  text-center ">
-            <!-- <h3 class="mb-3 text-base hidden"><span id="dateClickedPeople" name="dateClickedPeople"></span>  <span id="timeClicked" name="timeClicked"></span></h3> -->
-            <div class="max-w-sm mx-auto">
-              <label for="gender" class="block mb-2 text-sm  text-gray-900 font-bold">Gender</label>
-                <select name="gender" id="gender" class="bg-transparent border-b-2 border-gray-300 text-gray-900 text-sm rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:bg-transparent dark:text-black dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:ring-opacity-50 p-4 w-full"> 
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                </select>
+        </div>
+      </form>
+    </div>
 
-              <label for="role" class="block mb-2 text-sm font-bold text-gray-900 ">User Role</label>
-                <select name="role" id="role" class="bg-transparent border-b-2 border-gray-300 text-gray-900 text-sm rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:bg-transparent dark:text-black dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:ring-opacity-50 p-4 w-full"> 
-                  <option value="student">Student</option>
-                  <option value="staf">Staff</option>
-                  <option value="outside">Outside</option>
-                </select>
-                <label for="numPeople" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number of People</label>
-                <input type="number" id="numPeople" name="numPeople" class="bg-transparent border-b-2 border-gray-300 text-gray-900 text-sm rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:bg-transparent dark:text-black dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:ring-opacity-50 p-4 w-full" min="1" max="20" value="1" required oninput="validateNumber(this)" >
-                  <div class="max-h-[48px]] mt-1">
-                    <p id="total" class="text-right font-bold text-lg"></p>
-                  </div>
-                 <div class="mt-10 text-center mx-auto mr-4 ">
-                   <%- include('components/creditCard.ejs') -%>
+    <%- include('components/footer',{user:user}) -%>
 
-                 </div>
-                </div>
-              </form>
-            </div>
-    
-
-
-
-        <%- include('components/footer',{user:user}) -%>
-
-        <script
-        src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-        <script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script>
           function validateNumber(input) {
             // Restrict the input to be between 1 and 20
             if (parseInt(input.value) < 1) {
@@ -99,8 +123,8 @@
             }
           }
         </script>
-    </body>
-    <style>
+  </body>
+  <style>
     
 </style>
 

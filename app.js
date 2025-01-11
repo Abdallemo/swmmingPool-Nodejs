@@ -67,7 +67,6 @@ app.use("/profile", profileRouter);
 app.use("/booking", bookingRouter);
 app.use("/signout", signOuteRouter);
 app.use("/events", eventRouter);
-app.use("/card", cardRouter);
 app.use("/admin", adminRouter);
 app.use("/feedback", feedbackRouter);
 app.use("/admin/dashboard", adminDashboardRouter);

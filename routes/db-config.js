@@ -4,6 +4,7 @@ let isBookCreated = false;
 let isUserCreated = false;
 let isPaymentCreated = false;
 let isFeedbackCreated = false;
+let isAdminCreated = false;
 
 const pool = mysql.createPool({
   host: process.env.MYSQL_HOST,
@@ -133,6 +134,37 @@ async function createPayemtnTableIfNotExists() {
     connection.release();
   }
 }
+async function createAdminTableIfNotExists() {
+  if (isAdminCreated) {
+    console.log("users table already created. Skipping...");
+    return;
+  }
+  const connection = await pool.getConnection();
+  // TODO this is commented becuase its development related query ..
+  // await connection.query(`DROP TABLE IF EXISTS payment;`);
+  try {
+    await connection.query(`
+            CREATE TABLE IF NOT EXISTS admin (
+                id int auto_increment primary key not null,
+                email varchar(200) not null,
+                password varchar(200) not null
+                );
+        `);
+    await connection.query(`
+          INSERT INTO admin (email, password)
+          SELECT * FROM (SELECT 'swm@uthm.edu.my' AS email, '123' AS password) AS tmp
+          WHERE NOT EXISTS (
+            SELECT 1 FROM admin WHERE email = 'swm@uthm.edu.my'
+          ) LIMIT 1;
+        `);
+    console.log("admin table created successfully.");
+    isAdminCreated = true;
+  } catch (e) {
+    console.error("Error creating admin table:", e);
+  } finally {
+    connection.release();
+  }
+}
 
 async function initializeDatabase() {
   await createDatabaseIfNotExist();
@@ -140,6 +172,7 @@ async function initializeDatabase() {
   await createUserTableIfNotExists();
   await createPayemtnTableIfNotExists();
   await createFeebackTableIfNotExists();
+  await createAdminTableIfNotExists();
 }
 
 initializeDatabase();

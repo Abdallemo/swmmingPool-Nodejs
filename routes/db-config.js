@@ -271,11 +271,11 @@ async function deleteUser(uid) {
   );
 }
 
-async function deleteUsersBooking(user_id) {
+async function deleteUsersBooking(id) {
   await pool.query(
-    `DELETE FROM booking WHERE user_id = ?;
+    `DELETE FROM booking WHERE id = ?;
     `,
-    [user_id]
+    [id]
   );
 }
 async function deleteUsersPayment(user_id) {

@@ -8,14 +8,9 @@ const mysql = require("mysql2");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const bookingRouter = require("./routes/booking");
-const profileRouter = require("./routes/profile");
 const feedbackRouter = require("./routes/feedback");
-const reportRouter =require('./routes/report');
-const signOuteRouter = require("./routes/signout");
 const eventRouter= require('./routes/event')
-const cardRouter= require('./routes/adminfdback')
 const adminRouter= require('./routes/admin')
-const deleteUserRoute = require('./routes/deleteusers');
 const adminDashboardRouter= require('./routes/dashboard')
 const serviceaccount = require("./routes/configs/swimming-pool-uthm-firebase-adminsdk-su8h0-ff42a10331.json");
 const admin = require("firebase-admin");
@@ -62,17 +57,12 @@ app.use((req, res, next) => {
 });
 
 app.use("/", indexRouter);
-app.use("/login", usersRouter);
-app.use("/profile", profileRouter);
+app.use("/", usersRouter);
 app.use("/booking", bookingRouter);
-app.use("/signout", signOuteRouter);
 app.use("/events", eventRouter);
 app.use("/admin", adminRouter);
 app.use("/feedback", feedbackRouter);
 app.use("/admin/dashboard", adminDashboardRouter);
-app.use('/admin/dashboard/delete',deleteUserRoute);
-app.use('/admin/dashboard/report',reportRouter);
-app.use('/admin/dashboard/feedback',cardRouter);
 
 // error handler
 app.use(function (err, req, res, next) {

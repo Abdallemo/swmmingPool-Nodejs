@@ -1,6 +1,6 @@
 const express = require("express");
-require("firebase/auth");
 const router = express.Router();
+require("firebase/auth");
 const {DisplayAdmins} = require('./db-config')
 
 router.get("/", (req, res) => {

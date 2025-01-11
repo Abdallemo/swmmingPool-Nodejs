@@ -72,7 +72,7 @@
                                         <td><%= user.name %></td>
                                         <td><%= user.email %></td>
                                         <td>
-                                            <form action="/admin/dashboard/delete" method="POST">
+                                            <form action="/admin/dashboard/deleteuser" method="POST">
                                                 <input type="hidden" name="uid" value="<%= user.uid %>">
                                                 <input type="hidden" name="email" value="<%= user.email%>">
                                                 <button class="btn btn-sm btn-danger" type="submit">Delete</button>
@@ -114,7 +114,10 @@
                                         <td><%= booking.num_people %></td>
                                         <td><%= booking.gender %></td>
                                         <td>
-                                            <button class="btn btn-sm btn-danger">Cancel</button>
+                                            <form action="/admin/dashboard/deletebooking" method="POST">
+                                                <input type="hidden" value="<%= booking.id %>" name="booking_id">
+                                                <button class="btn btn-sm btn-danger" type="submit">Cancel</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 <% }) %>

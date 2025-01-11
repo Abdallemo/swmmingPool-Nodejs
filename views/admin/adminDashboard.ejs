@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -9,209 +8,177 @@
             rel="stylesheet"
             integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
             crossorigin="anonymous">
-        <style>
-        body {
-            background-color: #f4f4f9;
-        }
-        .sidebar {
-            height: 100vh;
-            background-color: #343a40;
-            color: white;
-            position: fixed;
-            width: 250px;
-            padding: 1rem;
-        }
-        .sidebar a {
-            color: white;
-            text-decoration: none;
-            margin-bottom: 1rem;
-            display: block;
-        }
-        .sidebar a:hover {
-            text-decoration: underline;
-        }
-        .content {
-            margin-left: 260px;
-            padding: 2rem;
-        }
-    </style>
     </head>
-    <body>
-        <div class="sidebar">
-            <h2>Admin Panel</h2>
-            <a href="#overview">Overview</a>
-            <a href="#manage-users">Manage Users</a>
-            <a href="#manage-bookings">Manage Bookings</a>
-            <a href="#reports">Reports</a>
-            <a href="#settings">Settings</a>
-        </div>
+    <body class="bg-light">
+        <div class="d-flex">
+            <!-- Sidebar -->
+            <div class="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white" style="width: 250px;">
+                <h2 class="text-center">Admin Panel</h2>
+                <nav class="nav flex-column mt-4">
+                    <a href="#overview" class="nav-link text-white">Overview</a>
+                    <a href="#manage-users" class="nav-link text-white">Manage Users</a>
+                    <a href="#manage-bookings" class="nav-link text-white">Manage Bookings</a>
+                    <a href="#reports" class="nav-link text-white">Reports</a>
+                    <a href="#settings" class="nav-link text-white">Settings</a>
+                </nav>
+            </div>
 
-        <div class="content">
-            <h1>Welcome, Admin</h1>
-            <section id="overview" class="">
-                <h2>Overview</h2>
-                <p>Quick stats about the swimming pool system:</p>
-                <div class="flex flex-row gap-4">
-                    <div class="flex-1  ">
-                        <div class="card text-white bg-primary mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Users</h5>
-                                <p class="card-text"><%= total_users %></p>
+            <!-- Content -->
+            <div class="flex-grow-1 p-4">
+                <h1 class="mb-4">Welcome, Admin</h1>
+
+                <!-- Overview Section -->
+                <section id="overview" class="mb-5">
+                    <h2>Overview</h2>
+                    <p>Quick stats about the swimming pool system:</p>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Users</h5>
+                                    <p class="card-text fs-4"><%= total_users %></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card bg-success text-white">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Bookings</h5>
+                                    <p class="card-text fs-4"><%= total_booking %></p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="flex-1  ">
-                        <div class="card text-white bg-success mb-3" >
-                            <div class="card-body">
-                                <h5 class="card-title">Total Bookings </h5>
-                                <p class="card-text"><%= total_booking %></p>
-                            </div>
+                </section>
+
+                <!-- Manage Users Section -->
+                <section id="manage-users" class="mb-5">
+                    <h2>Manage Users</h2>
+                    <p>View, edit, or remove users:</p>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% users_data.forEach(user => { %>
+                                    <tr>
+                                        <td><%= user.uid %></td>
+                                        <td><%= user.name %></td>
+                                        <td><%= user.email %></td>
+                                        <td>
+                                            <form action="/admin/dashboard/delete" method="POST">
+                                                <input type="hidden" name="uid" value="<%= user.uid %>">
+                                                <input type="hidden" name="email" value="<%= user.email%>">
+                                                <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Manage Bookings Section -->
+                <section id="manage-bookings" class="mb-5">
+                    <h2>Manage Bookings</h2>
+                    <p>Track and modify pool bookings:</p>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>User ID</th>
+                                    <th>Role</th>
+                                    <th>Booking Date</th>
+                                    <th>Time Slot</th>
+                                    <th>Number of People</th>
+                                    <th>Gender</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% booking_data.forEach(booking => { %>
+                                    <tr>
+                                        <td><%= booking.id %></td>
+                                        <td><%= booking.user_id %></td>
+                                        <td><%= booking.role %></td>
+                                        <td><%= booking.booking_date %></td>
+                                        <td><%= booking.slot_time %></td>
+                                        <td><%= booking.num_people %></td>
+                                        <td><%= booking.gender %></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger">Cancel</button>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Users Payment Section -->
+                <section id="users-payment" class="mb-5">
+                    <h2>Users Payment</h2>
+                    <p>Track pool bookings payments:</p>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User ID</th>
+                                    <th>Card Number</th>
+                                    <th>Total</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% all_Payments.forEach(payment => { %>
+                                    <tr>
+                                        <td><%= payment.id %></td>
+                                        <td><%= payment.user_id %></td>
+                                        <td><%= payment.card_number %></td>
+                                        <td>RM<%= payment.total %></td>
+                                        <td><%= payment.date %></td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Reports Section -->
+                <section id="reports" class="mb-5">
+                    <h2>Reports</h2>
+                    <p>Generate and download system reports:</p>
+                    <form action="/admin/dashboard/report" method="POST">
+                        <button class="btn btn-info" type="submit">Download Report</button>
+                    </form>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings">
+                    <h2>Settings</h2>
+                    <p>Update system configurations:</p>
+                    <form>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Admin Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="admin@example.com">
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="manage-users">
-                <h2>Manage Users</h2>
-                <p>View, edit, or remove users:</p>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <% users_data.forEach(user => { %>
-                        <tr>
-                            <td>1</td>
-
-                            <td><%= user.name %></td>
-                            <td><%= user.email %></td>
-                            <td>
-                                
-                                <!-- <button
-                                    class="btn btn-sm btn-primary">Edit</button> -->
-                                    <form action="/admin/dashboard/delete" method="POST">
-                                        <input type="hidden" name="uid" value="<%= user.uid %>">
-                                        <input type="hidden" name="email" value="<%= user.email%>">
-                                    <button class="btn btn-sm btn-danger" type="submit" >Delete</button>
-                                    </form>
-                            </td>
-                        </tr>
-
-                        <% }) %>
-                    </tbody>
-                </table>
-            </section>
-
-            <section id="manage-bookings">
-                <h2>Manage Bookings</h2>
-                <p>Track and modify pool bookings:</p>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Booking ID</th>
-                            <th>user id</th>
-                            <th>role</th>
-                            <th>Booking Date</th>
-                            <th>Time Slot</th>
-                            <th>Number of People</th>
-                            <th>Gender</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <% booking_data.forEach(booking => { %>
-                                
-                                <td><%= booking.id %></td>
-                                <td><%= booking.user_id %></td>
-                                <td><%= booking.role %></td>
-                                <td><%= booking.booking_date %></td>
-                                <td><%= booking.slot_time %></td>
-                                <td><%= booking.num_people %></td>
-                                <td><%= booking.gender %></td>
-
-                                <td>
-                           
-                                
-                                <button
-                                    class="btn btn-sm btn-danger">Cancel</button>
-                            </td>
-                        </tr>
-                         <% }) %>
-                    </tbody>
-                </table>
-            </section>
-            <section id="manage-bookings">
-                <h2>Users Payment</h2>
-                <p>Track pool bookings Payments:</p>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>user id</th>
-                            <th>Card Number</th>
-                            <th>Total</th>
-                            <th>Date</th>
-                            <!-- <th>Action</th> -->
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <% all_Payments.forEach(payment => { %>
-                                
-                                <td><%= payment.id %></td>
-                                <td><%= payment.user_id %></td>
-                                <td><%= payment.card_number %></td>
-                                <td>RM<%= payment.total %></td>
-                                <td><%= payment.date %></td>
-
-
-                                <!-- <td>
-                           
-                                
-                                <button
-                                    class="btn btn-sm btn-danger">Cancel</button>
-                            </td> -->
-                        </tr>
-                         <% }) %>
-                    </tbody>
-                </table>
-            </section>
-
-            <section id="reports">
-                <h2>Reports</h2>
-                <p>Generate and download system reports:</p>
-                <form action="/admin/dashboard/report" method="POST">
-                    <button class="btn btn-info" type="submit">Download Report</button>
-                </form>
-            </section>
-
-            <section id="settings">
-                <h2>Settings</h2>
-                <p>Update system configurations:</p>
-                <form>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Admin
-                            Email</label>
-                        <input type="email" class="form-control" id="email"
-                            placeholder="admin@example.com">
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">New
-                            Password</label>
-                        <input type="password" class="form-control"
-                            id="password" placeholder="Enter new password">
-                    </div>
-                    <button type="submit" class="btn btn-success">Save
-                        Changes</button>
-                </form>
-            </section>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Enter new password">
+                        </div>
+                        <button type="submit" class="btn btn-success">Save Changes</button>
+                    </form>
+                </section>
+            </div>
         </div>
 
         <script

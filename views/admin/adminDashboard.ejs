@@ -163,7 +163,7 @@
                 </section>
 
                 <!-- Settings Section -->
-                <section id="settings">
+                <section id="settings" class="position-relative">
                     <h2>Settings</h2>
                     <p>Update system configurations:</p>
                     <form>
@@ -176,6 +176,14 @@
                             <input type="password" class="form-control" id="password" placeholder="Enter new password">
                         </div>
                         <button type="submit" class="btn btn-success">Save Changes</button>
+                        <div class="position-absolute" style="bottom: -10px; right: 20px;">
+                            <a href="/admin/dashboard/feedback" class="btn btn-primary shadow">
+                                Users Feedback<span><svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                                  </svg>
+                                  </span>
+                            </a>
+                        </div>
                     </form>
                 </section>
             </div>

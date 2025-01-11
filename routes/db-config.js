@@ -226,6 +226,10 @@ async function DisplayAdmins() {
   const [rows] = await pool.query(`SELECT * FROM admin`, []);
   return rows;
 }
+async function DisplayFeedback() {
+  const [rows] = await pool.query(`SELECT * FROM feedback`, []);
+  return rows;
+}
 async function deleteUser(uid) {
   await pool.query(
     `DELETE FROM users WHERE uid = ?;
@@ -284,5 +288,6 @@ module.exports = {
   deleteUsersBooking,
   deleteUsersPayment,
   countNumberOfColumn,
-  DisplayAdmins
+  DisplayAdmins,
+  DisplayFeedback
 };

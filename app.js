@@ -13,7 +13,7 @@ const feedbackRouter = require("./routes/feedback");
 const reportRouter =require('./routes/report');
 const signOuteRouter = require("./routes/signout");
 const eventRouter= require('./routes/event')
-const cardRouter= require('./routes/card')
+const cardRouter= require('./routes/adminfdback')
 const adminRouter= require('./routes/admin')
 const deleteUserRoute = require('./routes/deleteusers');
 const adminDashboardRouter= require('./routes/dashboard')
@@ -72,6 +72,7 @@ app.use("/feedback", feedbackRouter);
 app.use("/admin/dashboard", adminDashboardRouter);
 app.use('/admin/dashboard/delete',deleteUserRoute);
 app.use('/admin/dashboard/report',reportRouter);
+app.use('/admin/dashboard/feedback',cardRouter);
 
 // error handler
 app.use(function (err, req, res, next) {

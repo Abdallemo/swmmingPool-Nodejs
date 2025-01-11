@@ -31,6 +31,7 @@ router.post("/", async (req, res) => {
         uid: decodeToken.uid,
         email: decodeToken.email,
         name: decodeToken.name,
+        img:decodeToken.picture
       }),
       { httpOnly: true, secure: false }
     );

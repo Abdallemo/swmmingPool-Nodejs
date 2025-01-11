@@ -17,6 +17,7 @@ const admin = require("firebase-admin");
 const { console } = require("inspector");
 require("dotenv").config();
 const cors = require('cors');
+const session = require('express-session');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceaccount),
@@ -27,7 +28,12 @@ const app = express();
 // view engine setup
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "./views"));
-
+app.use(session({
+  secret: '3d2dj23d', 
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));

@@ -270,6 +270,17 @@ async function deleteUser(uid) {
     [uid]
   );
 }
+async function updateAdmin(new_email, new_password, curr_email) {
+  try {
+    await pool.query(
+      'UPDATE admin SET email = ?, password = ? WHERE email = ?',
+      [new_email, new_password, curr_email]
+    );
+  } catch (error) {
+    console.error('Error updating admin password:', error);
+  }
+}
+
 
 async function deleteUsersBooking(id) {
   await pool.query(
@@ -322,5 +333,6 @@ module.exports = {
   deleteUsersPayment,
   countNumberOfColumn,
   DisplayAdmins,
-  DisplayFeedback
+  DisplayFeedback,
+  updateAdmin,
 };

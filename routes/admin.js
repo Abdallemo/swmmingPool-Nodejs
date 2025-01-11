@@ -22,6 +22,9 @@ router.post("/",async(req,res)=>{
   console.log('---------database Data for admin---------')
   if(admin){
     console.log('they are same');
+    req.session.adminmail = adminMail;
+    const getadmin = req.session.adminmail
+    console.log('before redirecting current admin :'+getadmin)
     res.redirect('/admin/dashboard')
 
   }else{

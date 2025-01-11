@@ -4,7 +4,7 @@ const {
   DisplayUsers,
   countNumberOfColumn,
   DisplayPayment,
-  deleteUsersBooking, deleteUser , deleteUsersPayment,DisplayFeedback
+  deleteUsersBooking, deleteUser , deleteUsersPayment,DisplayFeedback,updateAdmin
 } = require("../configs/db-config");
 const fs = require("fs");
 const path = require("path");
@@ -15,18 +15,23 @@ const admin = require("firebase-admin");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
+  const adminEmails = req.session.adminmail || 'Guest Admin';
+
   const Booking_result = await DisplaySwimmingPool();
   const users_result = await DisplayUsers();
   const user_payment = await DisplayPayment();
   const totalUsers = await countNumberOfColumn("swimmingpool", "users");
   const totalBooking = await countNumberOfColumn("swimmingpool", "booking");
+  console.log("Current Admin: "+adminEmails);
+
   console.log(totalUsers);
   res.render("admin/adminDashboard", {
     users_data: users_result,
     booking_data: Booking_result,
     total_users: totalUsers,
     total_booking: totalBooking,
-    all_Payments:user_payment
+    all_Payments:user_payment,
+    adminEmails:adminEmails
   });
 });
 
@@ -93,6 +98,24 @@ router.post("/report", async (req, res) => {
     }
     fs.unlinkSync(filePath);
   });
+});
+
+router.post('/updateadmin',async(req,res)=>{
+  console.log(req.body);
+  const {email,password}= req.body
+  const current_email = req.session.adminmail 
+  console.log(req.body.adminEmails)
+  console.log('currnet Email : '+current_email);
+  console.log('New Email : '+email);
+  console.log('New password : '+password);
+
+
+  await updateAdmin(email,password,current_email);
+  req.session.adminmail = email;
+
+
+  res.redirect('/admin/dashboard')
+
 });
 
 module.exports = router;

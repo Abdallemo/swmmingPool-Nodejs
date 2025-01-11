@@ -25,7 +25,7 @@
 
             <!-- Content -->
             <div class="flex-grow-1 p-4">
-                <h1 class="mb-4">Welcome, Admin</h1>
+                <h1 class="mb-4">Welcome, <%=  adminEmails %></h1>
 
                 <!-- Overview Section -->
                 <section id="overview" class="mb-5">
@@ -169,14 +169,14 @@
                 <section id="settings" class="position-relative">
                     <h2>Settings</h2>
                     <p>Update system configurations:</p>
-                    <form>
+                    <form action="/admin/dashboard/updateadmin" method="post">
                         <div class="mb-3">
                             <label for="email" class="form-label">Admin Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="admin@example.com">
+                            <input type="email" class="form-control" name="email" placeholder="admin@example.com">
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">New Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Enter new password">
+                            <input type="password" class="form-control" name="password" placeholder="Enter new password">
                         </div>
                         <button type="submit" class="btn btn-success">Save Changes</button>
                         <div class="position-absolute" style="bottom: -10px; right: 20px;">

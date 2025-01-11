@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 require("firebase/auth");
-const {DisplayAdmins} = require('./db-config')
+const {DisplayAdmins} = require('../configs/db-config')
 
 router.get("/", (req, res) => {
   const errormsgcrd = req.cookies.errormsgcrd;

@@ -1,7 +1,7 @@
 const express = require("express");
 var bodyParser = require("body-parser");
 const router = express.Router();
-const { inserPaymentTable, CreateBookslot } = require("./db-config");
+const { inserPaymentTable, CreateBookslot } = require("../configs/db-config");
 const { error } = require("console");
 const { emit } = require("process");
 require("fullcalendar");

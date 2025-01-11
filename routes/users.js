@@ -1,6 +1,6 @@
 const firebase = require("firebase/compat/app");
 require("firebase/auth");
-const {getSwimmingPool ,CreateBookslot,saveUsersFromFirebase} = require('./db-config');
+const {getSwimmingPool ,CreateBookslot,saveUsersFromFirebase} = require('../configs/db-config');
 const express = require("express");
 const { getAuth,signOut } = require("firebase/auth");
 const admin = require("firebase-admin");

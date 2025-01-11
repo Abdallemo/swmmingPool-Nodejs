@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {getSwimmingPool } = require('./db-config');
+const {getSwimmingPool } = require('../configs/db-config');
 
 
 

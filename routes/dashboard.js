@@ -5,10 +5,10 @@ const {
   countNumberOfColumn,
   DisplayPayment,
   deleteUsersBooking, deleteUser , deleteUsersPayment,DisplayFeedback
-} = require("./db-config");
+} = require("../configs/db-config");
 const fs = require("fs");
 const path = require("path");
-const {generateReport}= require('./helpers/helper')
+const {generateReport}= require('../helpers/helper')
 
 require("firebase/auth");
 const admin = require("firebase-admin");

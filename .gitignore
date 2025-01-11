@@ -3,3 +3,4 @@ bin
 .env
 routes/configs/swimming-pool-uthm-firebase-adminsdk-su8h0-ff42a10331.json
 routes/configs/*.json
+.Vscode

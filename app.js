@@ -3,7 +3,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-require("./routes/configs/firebase-config");
+require("./configs/firebase-config");
 const mysql = require("mysql2");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -12,7 +12,7 @@ const feedbackRouter = require("./routes/feedback");
 const eventRouter= require('./routes/event')
 const adminRouter= require('./routes/admin')
 const adminDashboardRouter= require('./routes/dashboard')
-const serviceaccount = require("./routes/configs/swimming-pool-uthm-firebase-adminsdk-su8h0-ff42a10331.json");
+const serviceaccount = require("./configs/swimming-pool-uthm-firebase-adminsdk-su8h0-ff42a10331.json");
 const admin = require("firebase-admin");
 const { console } = require("inspector");
 require("dotenv").config();

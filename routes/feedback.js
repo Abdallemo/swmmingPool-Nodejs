@@ -1,6 +1,6 @@
 let express = require('express');
 let router = express.Router();
-let {inserfeedbackTable} = require('./db-config');
+let {inserfeedbackTable} = require('../configs/db-config');
 const { error } = require('console');
 
 /* GET home page. */

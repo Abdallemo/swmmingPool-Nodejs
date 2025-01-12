@@ -5,6 +5,7 @@ let isUserCreated = false;
 let isPaymentCreated = false;
 let isFeedbackCreated = false;
 let isAdminCreated = false;
+let isReportCreated = false;
 
 const pool = mysql.createPool({
   host: process.env.MYSQL_HOST,
@@ -166,6 +167,34 @@ async function createAdminTableIfNotExists() {
   }
 }
 
+async function createReportTableIfNotExists() {
+  if (isReportCreated) {
+    console.log("report table already created. Skipping...");
+    return;
+  }
+  const connection = await pool.getConnection();
+  // TODO this is commented becuase its development related query ..
+  // await connection.query(`DROP TABLE IF EXISTS booking;`);
+  try {
+    await connection.query(`
+        CREATE TABLE IF NOT EXISTS report (
+            report_id INT AUTO_INCREMENT PRIMARY KEY,
+            admin_id int ,
+            date_generated VARCHAR(40),
+            content VARCHAR(200),
+            CONSTRAINT FK_report_id FOREIGN KEY (admin_id) 
+            REFERENCES admin(id)
+        );
+    `);
+    console.log("report table created successfully.");
+    isReportCreated = true;
+  } catch (e) {
+    console.error("Error creating report table:", e);
+  } finally {
+    connection.release();
+  }
+}
+
 async function initializeDatabase() {
   await createDatabaseIfNotExist();
   await createBookingTableIfNotExists();
@@ -173,6 +202,7 @@ async function initializeDatabase() {
   await createPayemtnTableIfNotExists();
   await createFeebackTableIfNotExists();
   await createAdminTableIfNotExists();
+  await createReportTableIfNotExists();
 }
 
 initializeDatabase();
@@ -213,6 +243,16 @@ async function inserfeedbackTable(name, email, feeback) {
               VALUES(?,?,?)
     `,
     [name, email, feeback]
+  );
+  return result;
+}
+async function inserReportTable(admin_id, date_generated, content) {
+  const result = await pool.query(
+    `
+              INSERT INTO report (admin_id,date_generated,content )
+              VALUES(?,?,?)
+    `,
+    [admin_id, date_generated, content]
   );
   return result;
 }
@@ -263,6 +303,11 @@ async function DisplayFeedback() {
   const [rows] = await pool.query(`SELECT * FROM feedback`, []);
   return rows;
 }
+async function DisplayCurrentAdmin_ID(email) {
+  const [rows] = await pool.query(`SELECT * FROM admin where email =? `, [email]);
+  return rows[0].id;
+}
+
 async function deleteUser(uid) {
   await pool.query(
     `DELETE FROM users WHERE uid = ?;
@@ -335,4 +380,6 @@ module.exports = {
   DisplayAdmins,
   DisplayFeedback,
   updateAdmin,
+  inserReportTable,
+  DisplayCurrentAdmin_ID
 };

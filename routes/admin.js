@@ -14,7 +14,7 @@ router.post("/",async(req,res)=>{
   const adminMail = req.body.email;
   const adminPassword =req .body.password;
   const admins = await DisplayAdmins();
-  console.log(admins);
+  // console.log(admins);
   console.log('---------database Data for admin---------')
 
   const admin = admins.find(admin =>admin.email === adminMail && admin.password===adminPassword);

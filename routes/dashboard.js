@@ -4,7 +4,7 @@ const {
   DisplayUsers,
   countNumberOfColumn,
   DisplayPayment,
-  deleteUsersBooking, deleteUser , deleteUsersPayment,DisplayFeedback,updateAdmin
+  deleteUsersBooking, deleteUser , deleteUsersPayment,DisplayFeedback,updateAdmin,inserReportTable,DisplayCurrentAdmin_ID
 } = require("../configs/db-config");
 const fs = require("fs");
 const path = require("path");
@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
   const totalBooking = await countNumberOfColumn("swimmingpool", "booking");
   console.log("Current Admin: "+adminEmails);
 
-  console.log(totalUsers);
+  // console.log(totalUsers);
   res.render("admin/adminDashboard", {
     users_data: users_result,
     booking_data: Booking_result,
@@ -82,9 +82,14 @@ router.post("/report", async (req, res) => {
   const payment_table = await DisplayPayment();
   const date = new Date().toLocaleDateString()
   const time = new Date().toLocaleTimeString();
+  const current_email = req.session.adminmail 
 
   const fileContent = generateReport(booking_table,user_table,date,time);
   console.log("clicked generate repor ..");
+  console.log("current Admin : "+current_email);
+  const admin_id = await DisplayCurrentAdmin_ID(current_email);
+
+  // console.log(admin_id);
 
   const filename = "report.txt";
   const filePath = path.join(__dirname, filename);
@@ -97,7 +102,11 @@ router.post("/report", async (req, res) => {
       console.log(err);
     }
     fs.unlinkSync(filePath);
+    
   });
+
+  await inserReportTable(admin_id,date,"report.txt");
+
 });
 
 router.post('/updateadmin',async(req,res)=>{

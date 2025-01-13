@@ -38,14 +38,21 @@ async function createBookingTableIfNotExists() {
         CREATE TABLE IF NOT EXISTS booking (
             id INT AUTO_INCREMENT PRIMARY KEY,
             role VARCHAR(30) NOT NULL,
-            booking_date VARCHAR(30) NOT NULL,
+            booking_date DATE NOT NULL,
             slot_time VARCHAR(30) NOT NULL,
             num_people INT NOT NULL,
             gender VARCHAR(10) NOT NULL,
-            user_id VARCHAR(200)
+            user_id VARCHAR(200),
+            CONSTRAINT FK_booking_user FOREIGN KEY (user_id) 
+            REFERENCES users(email)
+            ON DELETE CASCADE
             
         );
     `);
+    await connection.query(`
+        ALTER TABLE booking
+        ADD INDEX (booking_date);
+      `);
     console.log("Booking table created successfully.");
     isBookCreated = true;
   } catch (e) {
@@ -110,7 +117,7 @@ async function createUserTableIfNotExists() {
 }
 async function createPayemtnTableIfNotExists() {
   if (isPaymentCreated) {
-    console.log("users table already created. Skipping...");
+    console.log("payment table already created. Skipping...");
     return;
   }
   const connection = await pool.getConnection();
@@ -120,11 +127,17 @@ async function createPayemtnTableIfNotExists() {
     await connection.query(`
             CREATE TABLE IF NOT EXISTS payment (
                 id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                user_id VARCHAR(200) NOT NULL,
+                user_id VARCHAR(200) ,
                 card_number VARCHAR(30) NOT NULL,
                 total INt NOT NULL,
-                date VARCHAR(200) NOT NULL
-                
+                date DATE NOT NULL,
+                CONSTRAINT FK_payment_user FOREIGN KEY (user_id) 
+                REFERENCES users(email)
+                ON DELETE CASCADE,
+                CONSTRAINT FK_bookdate_user FOREIGN KEY (date) 
+                REFERENCES booking(booking_date)
+                ON DELETE CASCADE
+                 
             );
         `);
     console.log("payment table created successfully.");
@@ -197,8 +210,8 @@ async function createReportTableIfNotExists() {
 
 async function initializeDatabase() {
   await createDatabaseIfNotExist();
-  await createBookingTableIfNotExists();
   await createUserTableIfNotExists();
+  await createBookingTableIfNotExists();
   await createPayemtnTableIfNotExists();
   await createFeebackTableIfNotExists();
   await createAdminTableIfNotExists();
@@ -353,6 +366,21 @@ async function countNumberOfColumn(db, table) {
 }
 
 //this is for devlopment purpose
+
+async function dropDatabase() {
+  const connection = await pool.getConnection();
+  try {
+    const databaseName = 'swimmingpool'; // Replace with your database name
+    console.log(`Dropping database: ${databaseName}...`);
+    await connection.query(`DROP DATABASE IF EXISTS ${databaseName};`);
+    console.log(`Database ${databaseName} dropped successfully.`);
+  } catch (error) {
+    console.error("Error dropping database:", error);
+  } finally {
+    connection.release();
+  }
+}
+// dropDatabase(); 
 async function DropAllTables() {
   const connection = await pool.getConnection();
   await connection.query(`DROP TABLE IF EXISTS booking;`);
@@ -381,5 +409,8 @@ module.exports = {
   DisplayFeedback,
   updateAdmin,
   inserReportTable,
-  DisplayCurrentAdmin_ID
+  DisplayCurrentAdmin_ID,
+  createBookingTableIfNotExists,
+  createUserTableIfNotExists,
+  createPayemtnTableIfNotExists
 };

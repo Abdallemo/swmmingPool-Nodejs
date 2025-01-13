@@ -1,6 +1,6 @@
 const firebase = require("firebase/compat/app");
 require("firebase/auth");
-const {getSwimmingPool ,CreateBookslot,saveUsersFromFirebase} = require('../configs/db-config');
+const {createUserTableIfNotExists,saveUsersFromFirebase} = require('../configs/db-config');
 const express = require("express");
 const { getAuth,signOut } = require("firebase/auth");
 const admin = require("firebase-admin");
@@ -13,6 +13,7 @@ router.get("/login", async function (req, res, next) {
 });
 router.post("/login", async (req, res) => {
   console.log(req.body);
+  // await createUserTableIfNotExists();
   try {
     const { idToken } = req.body;
     if (!idToken) {

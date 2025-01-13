@@ -1,7 +1,7 @@
 const express = require("express");
 var bodyParser = require("body-parser");
 const router = express.Router();
-const { inserPaymentTable, CreateBookslot } = require("../configs/db-config");
+const { inserPaymentTable, CreateBookslot ,createBookingTableIfNotExists,createPayemtnTableIfNotExists} = require("../configs/db-config");
 const { error } = require("console");
 const { emit } = require("process");
 require("fullcalendar");
@@ -66,6 +66,9 @@ router.post("/", async function (req, res, next) {
     res.status(400).json({ error: "Missing required field" });
   }
   try {
+    // await createBookingTableIfNotExists();
+    // await createPayemtnTableIfNotExists();
+
 
     await CreateBookslot(role,date, slottime, numPeople, gender, email);
     await inserPaymentTable(email, card_number, total, date);

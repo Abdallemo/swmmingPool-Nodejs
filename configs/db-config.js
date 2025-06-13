@@ -4,6 +4,7 @@ let isBookCreated = false;
 let isUserCreated = false;
 let isPaymentCreated = false;
 let isFeedbackCreated = false;
+let isDateCreated = false;
 let isAdminCreated = false;
 let isReportCreated = false;
 
@@ -42,6 +43,7 @@ async function createBookingTableIfNotExists() {
             slot_time VARCHAR(30) NOT NULL,
             num_people INT NOT NULL,
             gender VARCHAR(10) NOT NULL,
+            matric_no VARCHAR(100) NOT NULL,
             user_id VARCHAR(200),
             CONSTRAINT FK_booking_user FOREIGN KEY (user_id) 
             REFERENCES users(email)
@@ -83,6 +85,35 @@ async function createFeebackTableIfNotExists() {
     `);
     console.log("Feedback table created successfully.");
     isFeedbackCreated = true;
+  } catch (e) {
+    console.error("Error creating feeback table:", e);
+  } finally {
+    connection.release();
+  }
+}
+async function createDateIfNotExists() {
+  if (isDateCreated) {
+    console.log("Dates table already created. Skipping...");
+    return;
+  }
+  const connection = await pool.getConnection();
+  // TODO this is commented becuase its development related query ..
+  // await connection.query(`DROP TABLE IF EXISTS feeback;`);
+  try {
+    await connection.query(`
+                  CREATE TABLE sessions (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    title VARCHAR(100) NOT NULL,
+                    description TEXT,
+                    start_time TIME NOT NULL,
+                    end_time TIME NOT NULL,
+                    days_of_week VARCHAR(20) NOT NULL,
+                    color VARCHAR(7), 
+                    recurrence_rule VARCHAR(255) 
+                  );
+    `);
+    console.log("Dates table created successfully.");
+    isDateCreated = true;
   } catch (e) {
     console.error("Error creating feeback table:", e);
   } finally {
@@ -216,6 +247,7 @@ async function initializeDatabase() {
   await createFeebackTableIfNotExists();
   await createAdminTableIfNotExists();
   await createReportTableIfNotExists();
+  await createDateIfNotExists();
 }
 
 initializeDatabase();
@@ -226,14 +258,15 @@ async function CreateBookslot(
   slotTime,
   numPeople,
   gender,
-  email
+  email,
+  metrciNo
 ) {
   const result = await pool.query(
     `
-            INSERT INTO booking (role,booking_date, slot_time, num_people,gender,user_id)
-            VALUES (?,?,?,?,?,?)
+            INSERT INTO booking (role,booking_date, slot_time, num_people,gender,user_id,matric_no)
+            VALUES (?,?,?,?,?,?,?)
         `,
-    [role, bookingDate, slotTime, numPeople, gender, email]
+    [role, bookingDate, slotTime, numPeople, gender, email,metrciNo]
   );
 
   return result;
@@ -397,7 +430,7 @@ module.exports = {
   CreateBookslot,
   saveUsersFromFirebase,
   inserPaymentTable,
-  inserfeedbackTable,
+  inserfeedbackTable, 
   DisplaySwimmingPool,
   DisplayUsers,
   DisplayPayment,

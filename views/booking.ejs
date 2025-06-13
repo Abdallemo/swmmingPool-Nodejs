@@ -52,6 +52,7 @@
 
         <div id="mainCalendar" class="w-full h-[600px]]"></div></div>
 
+      
       <h3 class="font-bold size text-2xl">Time Slots for <span id="dateClicked"
           name="dateClicked"></span></h3>
       <div id="timeCalendar" name="timeCalendar" style="display: none;"
@@ -83,6 +84,11 @@
             </label>
           </div>
 
+            <label for="metrciNo"
+            class="block mb-2 text-sm font-bold  text-black">Metirc No</label>
+          <input type="text" id="metrciNo" name="metrciNo"
+            class="bg-transparent border-b-2 border-gray-300 text-gray-900 text-sm rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:bg-transparent dark:text-black dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:ring-opacity-50 p-4 w-full" required >
+
           <label for="role"
             class="block mb-2 text-sm font-bold text-gray-900 ">User
             Role</label>
@@ -92,8 +98,9 @@
             <option value="staf">Staff</option>
             <option value="outside">Outside</option>
           </select>
+
           <label for="numPeople"
-            class="block mb-2 text-sm font-medium  text-black">Number
+            class="block mb-2 text-sm font-bold  text-black">Number
             of People</label>
           <input type="number" id="numPeople" name="numPeople"
             class="bg-transparent border-b-2 border-gray-300 text-gray-900 text-sm rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:bg-transparent dark:text-black dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:ring-opacity-50 p-4 w-full"

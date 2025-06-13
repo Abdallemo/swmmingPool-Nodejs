@@ -101,7 +101,7 @@ async function createDateIfNotExists() {
   // await connection.query(`DROP TABLE IF EXISTS feeback;`);
   try {
     await connection.query(`
-                  CREATE TABLE sessions (
+                  CREATE TABLE IF NOT EXISTS sessions  (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     title VARCHAR(100) NOT NULL,
                     description TEXT,
